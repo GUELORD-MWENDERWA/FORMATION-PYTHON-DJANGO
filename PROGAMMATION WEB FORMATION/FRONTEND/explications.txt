@@ -1,0 +1,24 @@
+1 verifiction de git apres l'installation 
+git -- version 
+
+2 initialisation de git dans un projet 
+git init 
+
+3 ajouter le fichiers  a suivre dans git , ( sauvegarde tempo)
+git add __nom du fihier__
+pour suivre  tout les fichiers
+git add . 
+
+4 pour verifier l'etat de git , (on regarde si on as des fichers modifier)
+git status
+
+5 pour deplacer les fichers sauvegarder vers une nouvelle versiion 
+git commit -m "__nom de la version du projet"
+
+6 le deploillement du projet local vers github
+git remote add origin https://github.com/GUELORD-MWENDERWA/FORMATION-EMBARQUER.git
+git branch -M main
+ git push -u origin main
+
+7 pour deployer les nouvelles versions de notre projet on fait juste 
+git push
