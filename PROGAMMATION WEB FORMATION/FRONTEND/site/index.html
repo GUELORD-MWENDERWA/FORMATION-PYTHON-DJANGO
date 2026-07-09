@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="hero">
+    <header class="hero" id="home">
+      <div class="overlay"></div>
       <nav class="nav-bar">
         <div class="logo">
           <span class="logo-box">DTMS</span>
@@ -18,11 +19,11 @@
         </div>
 
         <ul class="nav-links">
-          <li><a href="#">Accueil</a></li>
-          <li><a href="#">A propos</a></li>
-          <li><a href="#">Services</a></li>
-          <li><a href="#">Projets</a></li>
-          <li><a href="#">Contacts</a></li>
+          <li><a href="#home">Accueil</a></li>
+          <li><a href="#about">A propos</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#projets">Projets</a></li>
+          <li><a href="#contacsts">Contacts</a></li>
         </ul>
 
         <div class="nav-actions">
@@ -39,5 +40,23 @@
         <a href="#" class="cta-btn">En savoir plus</a>
       </div>
     </header>
+
+    <section class="about-section" id="about">
+      <div class="about-container">
+        <div class="about-text">
+          <p class="about-label">A PROPOS DE NOUS</p>
+          <h2>Qui sommes-nous</h2>
+          <p>
+            Chez DTMS Dynamic Technology Multi Services, nous concevons des
+            solutions technologiques fiables et adaptées aux besoins des
+            entreprises modernes. Notre mission est d’accompagner nos clients
+            dans leurs projets numériques, électroniques et informatiques avec
+            des services de qualité, un suivi rigoureux et une approche orientée
+            résultats.
+          </p>
+          <a href="#" class="about-btn">En savoir plus</a>
+        </div>
+      </div>
+    </section>
   </body>
 </html>
