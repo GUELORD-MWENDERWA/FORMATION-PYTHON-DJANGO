@@ -7,7 +7,7 @@ body {
 }
 
 .container {
-  width: 400px;
+  width: 600px;
   margin: 100px auto;
   padding: 30px;
   background: #fff;
@@ -15,15 +15,11 @@ body {
   text-align: center;
 }
 
-button {
+#bouton {
   padding: 10px 20px;
-
   background: black;
-
   color: white;
-
   border: none;
-
   cursor: pointer;
 }
 

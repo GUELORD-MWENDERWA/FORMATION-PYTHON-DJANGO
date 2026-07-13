@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f2f5f2;
+}
+
+.title {
+  color: red;
+  font-size: 1.5rem;
+}
+
+.title2 {
+  color: green;
+}
