@@ -1,0 +1,1 @@
+document.querySelectorAll(".acc .h").forEach(b=>b.onclick=()=>{const c=b.nextElementSibling;c.style.display=c.style.display=="none"?"block":"none";} );

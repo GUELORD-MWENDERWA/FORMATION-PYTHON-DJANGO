@@ -1,0 +1,1 @@
+document.getElementById("f").onsubmit=e=>{e.preventDefault();document.getElementById("msg").textContent="Formulaire valide !";}
