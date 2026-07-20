@@ -1,0 +1,1 @@
+print("je suis dans le fichier compteur")
