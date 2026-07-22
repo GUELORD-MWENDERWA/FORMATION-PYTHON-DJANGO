@@ -2,6 +2,7 @@
 #for
 
 #while
+
 listeProduct = []
 listPrice = []
 listQuantinty = []
@@ -17,17 +18,26 @@ else:
         print("entrer le nom du produit ")
         listeProduct.append(input()) 
 
-    for produit in listeProduct:
+    for indice, produit in enumerate(listeProduct):
         print("entrer le prix de", produit)
-        listPrice.append(input())
+        listPrice.append(float(input()))
 
         print("entrer la quantinte de", produit)
-        listQuantinty.append(input())
-
-        listTotalPrice += listPrice[-1] * listQuantinty[-1]
+        listQuantinty.append(int(input()))
+        
+        #on fait le total pour un element 
+        total = float(listPrice[indice]*listQuantinty[indice])
+        listTotalPrice.append(total)
         
 
-    print(listeProduct)
-    print(listPrice)
-    print(listQuantinty)
-    print(listQuantinty)
+
+
+"""
+no  produit   prix unt  Qte  prix tot
+1   mangue     3400      2    6800
+2   avocat     4500      2    9000
+"""
+print(listeProduct)
+print(listPrice)
+print(listQuantinty)
+print(listTotalPrice)
