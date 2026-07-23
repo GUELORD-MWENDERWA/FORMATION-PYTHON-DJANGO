@@ -1,43 +1,59 @@
-#nom du produit, prix du produit, Quantite et le total a la fin
-#for
-
-#while
-
 listeProduct = []
 listPrice = []
 listQuantinty = []
 listTotalPrice = []
 
-nombreElement = int(input("voulez vous completer combien de produit ? "))
-
-if(nombreElement < 1):
-    print("DESOLER LE NOMBRE DE PRODUIT ENTRER EST INVALIDE ")
-
-else:   
-    for produit in range(nombreElement):
-        print("entrer le nom du produit ")
-        listeProduct.append(input()) 
-
-    for indice, produit in enumerate(listeProduct):
-        print("entrer le prix de", produit)
-        listPrice.append(float(input()))
-
-        print("entrer la quantinte de", produit)
-        listQuantinty.append(int(input()))
+while True:
+    print("Entrer le nom d'un produit ou saisissez '-1' pour arrêter :")
+    nom_produit = input().strip()
+  
+    if nom_produit == "":
+        print("Le nom d'un produit ne doit pas être vide svp !!!")
+        continue
+         
+    elif nom_produit == "-1":
         
-        #on fait le total pour un element 
-        total = float(listPrice[indice]*listQuantinty[indice])
+      if len(listeProduct) == 0:
+         print("Aucun produit n'a été enregistré.")
+         while True:
+            print("voulez vous arreter taper 'A/a' ou enregistré un produit ? taper 'E/e'")
+            reponse = input().strip().lower()
+         if reponse == "a":
+            break
+         elif reponse == "e":
+            continue
+         break
+      
+        
+      print("\nVoici les produits complétés :")
+      LARGEUR_BORDURE = 71
+        
+      # Affichage de l'en-tête du tableau
+      print("*" * LARGEUR_BORDURE)
+      print(f"* {'N°':<5} * {'Produit':<15} * {'Prix Unitaire':<15} * {'Quantité':<10} * {'Prix Total':<10} *")
+      print("*" * LARGEUR_BORDURE)
+      
+      # Affichage des lignes de données
+      for i in range(len(listeProduct)):
+         numero = i + 1
+         print(f"* {numero:<5} * {listeProduct[i]:<15} * {listPrice[i]:<15.2f} * {listQuantinty[i]:<10} * {listTotalPrice[i]:<10.2f} *")
+      
+      print("*" * LARGEUR_BORDURE)
+      break
+
+    else:   
+        listeProduct.append(nom_produit)
+
+        print(f"Entrer le prix de {nom_produit} :")
+        prix = float(input())
+        listPrice.append(prix)
+
+        print(f"Entrer la quantité de {nom_produit} :")
+        quantite = int(input())
+        listQuantinty.append(quantite)
+         
+        total = prix * quantite
         listTotalPrice.append(total)
-        
 
 
 
-"""
-no  produit   prix unt  Qte  prix tot
-1   mangue     3400      2    6800
-2   avocat     4500      2    9000
-"""
-print(listeProduct)
-print(listPrice)
-print(listQuantinty)
-print(listTotalPrice)
