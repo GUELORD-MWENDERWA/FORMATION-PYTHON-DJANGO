@@ -53,28 +53,31 @@ for element in liste1:
 
 #while
 
+from xml.etree.ElementTree import Element
+
+
 listeProduct = []
 listPrice = []
 listQuantinty = []
 listTotalPrice = []
-nombreElement = 0
-"""
+elementEntry = ""
+
 while True:
    print("entrer le nom d'un produit ou saisisez '-1' pour arreter" )
-   nombreElement = input()
+   elementEntry = input().strip().upper()
   
-   if nombreElement == "":
+   if elementEntry == "":
        print("le nom d'un element ne doit pas etre vide svp !!!" )
        continue
          
-   elif nombreElement == "-1":
+   elif elementEntry == "-1":
       print("voici les produits completer")
-      
+      """
       ==========================================
       = no  produit   prix unt  Qte  prix tot  =
       =  1   mangue     3400      2    6800    =
       =  2   avocat     4500      2    9000    =
-     
+     """
       print(listeProduct)
       print(listPrice)
       print(listQuantinty)
@@ -82,20 +85,19 @@ while True:
       break
 
    else:   
-      listeProduct.append(nombreElement)
+      listeProduct.append(elementEntry)
+      print("entrer le prix de", elementEntry)
+      price = float(input())
+      listPrice.append(price)
 
-      for indice, produit in enumerate(listeProduct):
-         print("entrer le prix de", produit)
-         listPrice.append(float(input()))
-
-         print("entrer la quantinte de", produit)
-         listQuantinty.append(int(input()))
-         
-         #on fait le total pour un element 
-         total = float(listPrice[indice]*listQuantinty[indice])
-         listTotalPrice.append(total)
+      print("entrer la quantinte de", elementEntry)
+      quantinty  = int(input())
+      listQuantinty.append(quantinty)
+      
+      #on fait le total pour un element 
+      total = float(price*quantinty)
+      listTotalPrice.append(total)
         
-"""
 
 def printUser(utilisateur):
    if(utilisateur == ""):
