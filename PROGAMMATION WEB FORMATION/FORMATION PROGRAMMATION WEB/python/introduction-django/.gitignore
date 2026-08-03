@@ -3,11 +3,7 @@
 # ====================================================================
 # Bloque le dossier "env" et ses variantes pour ne pas envoyer les Go de données
 env/
-.venv/
-venv/
-ENV/
 env.bak/
-venv.bak/
 
 # ====================================================================
 # CACHE PYTHON ET FICHIERS COMPILÉS

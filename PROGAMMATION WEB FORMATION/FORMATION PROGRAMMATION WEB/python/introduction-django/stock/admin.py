@@ -1,4 +1,5 @@
 from django.contrib import admin
+from .models import Produit
 
 # Register your models here.
-admin.site.urls
+admin.site.register(Produit) 
