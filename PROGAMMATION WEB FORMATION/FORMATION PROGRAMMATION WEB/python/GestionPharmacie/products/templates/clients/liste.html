@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% comment %}
+  clients/liste.html - fichier clients de la pharmacie.
+{% endcomment %}
+
+{% block title %}Clients - GestionPharmacie{% endblock %}
+
+{% block content %}
+
+  <div class="app-content-header">
+    <h1 class="app-content-headerText">Clients</h1>
+    {% include "partials/theme_switch.html" %}
+    <a href="{% url 'clients_form' %}" class="app-content-headerButton">Ajouter un client</a>
+  </div>
+
+  <div class="app-content-actions">
+    <input class="search-bar" placeholder="Rechercher un client..." type="text" />
+  </div>
+
+  <div class="data-table-wrapper">
+    <div class="data-table-header">
+      <div class="data-cell grow">Nom</div>
+      <div class="data-cell">Telephone</div>
+      <div class="data-cell grow">Email</div>
+      <div class="data-cell">Achats</div>
+      <div class="data-cell">Dernier achat</div>
+    </div>
+
+    <div class="data-row">
+      <div class="data-cell grow">Jean Kalombo</div>
+      <div class="data-cell">+243 970 000 001</div>
+      <div class="data-cell grow">jean.kalombo@example.com</div>
+      <div class="data-cell">14</div>
+      <div class="data-cell">11/08/2026</div>
+    </div>
+    <div class="data-row">
+      <div class="data-cell grow">Marie Tshibangu</div>
+      <div class="data-cell">+243 970 000 002</div>
+      <div class="data-cell grow">marie.tshibangu@example.com</div>
+      <div class="data-cell">9</div>
+      <div class="data-cell">11/08/2026</div>
+    </div>
+    <div class="data-row">
+      <div class="data-cell grow">Pierre Mukendi</div>
+      <div class="data-cell">+243 970 000 003</div>
+      <div class="data-cell grow">pierre.mukendi@example.com</div>
+      <div class="data-cell">5</div>
+      <div class="data-cell">10/08/2026</div>
+    </div>
+    <div class="data-row">
+      <div class="data-cell grow">Sarah Ilunga</div>
+      <div class="data-cell">+243 970 000 004</div>
+      <div class="data-cell grow">sarah.ilunga@example.com</div>
+      <div class="data-cell">21</div>
+      <div class="data-cell">10/08/2026</div>
+    </div>
+  </div>
+
+{% endblock %}

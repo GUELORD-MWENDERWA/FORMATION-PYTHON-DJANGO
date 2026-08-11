@@ -1,0 +1,39 @@
+{% load static %}
+{% comment %}
+  base.html - gabarit principal de l'application.
+  Toutes les pages du site heritent de ce fichier avec {% extends %}
+  et ne redefinissent que les blocs ci-dessous.
+{% endcomment %}
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}GestionPharmacie{% endblock %}</title>
+
+    {# Reset CSS externe #}
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
+    />
+    {# Feuille de style propre au projet #}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <div class="app-container">
+      {# Menu de navigation lateral, identique sur toutes les pages #}
+      {% include "partials/sidebar.html" %}
+
+      {# Zone de contenu propre a chaque page #}
+      <div class="app-content">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+
+    {# Script JS commun a toutes les pages #}
+    <script src="{% static 'js/script.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>
