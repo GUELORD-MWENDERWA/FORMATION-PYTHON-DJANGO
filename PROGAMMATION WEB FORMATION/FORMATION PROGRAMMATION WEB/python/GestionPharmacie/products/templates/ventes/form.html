@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% comment %}
+  ventes/form.html - point de vente (nouvelle vente).
+  Catalogue a gauche, panier a droite. Aucune interaction JS
+  pour l'instant : ce sera branche lors de l'integration Django.
+{% endcomment %}
+
+{% block title %}Nouvelle vente - GestionPharmacie{% endblock %}
+
+{% block content %}
+
+  <div class="app-content-header">
+    <h1 class="app-content-headerText">Nouvelle vente</h1>
+    {% include "partials/theme_switch.html" %}
+  </div>
+
+  <div class="app-content-actions">
+    <input class="search-bar" placeholder="Rechercher un produit a ajouter..." type="text" />
+  </div>
+
+  <div class="pos-layout">
+
+    {# Catalogue de produits #}
+    <div class="pos-catalog">
+      <div class="pos-product-card">
+        <p class="pos-product-name">Doliprane 1000mg</p>
+        <span class="pos-product-price">3 €</span>
+      </div>
+      <div class="pos-product-card">
+        <p class="pos-product-name">Amoxicilline 500mg</p>
+        <span class="pos-product-price">7 €</span>
+      </div>
+      <div class="pos-product-card">
+        <p class="pos-product-name">Gel hydroalcoolique</p>
+        <span class="pos-product-price">2 €</span>
+      </div>
+      <div class="pos-product-card">
+        <p class="pos-product-name">Creme hydratante</p>
+        <span class="pos-product-price">9 €</span>
+      </div>
+      <div class="pos-product-card">
+        <p class="pos-product-name">Tensiometre digital</p>
+        <span class="pos-product-price">35 €</span>
+      </div>
+      <div class="pos-product-card">
+        <p class="pos-product-name">Paracetamol 500mg</p>
+        <span class="pos-product-price">3 €</span>
+      </div>
+    </div>
+
+    {# Panier en cours #}
+    <div class="cart-panel">
+      <div class="form-group">
+        <label for="vente-client">Client</label>
+        <select id="vente-client" name="client">
+          <option>Client de passage</option>
+          <option>Jean Kalombo</option>
+          <option>Marie Tshibangu</option>
+        </select>
+      </div>
+
+      <div class="cart-items">
+        <div class="cart-item">
+          <div>
+            Doliprane 1000mg
+            <div class="cart-item-qty">2 x 3 €</div>
+          </div>
+          <div>6 €</div>
+        </div>
+        <div class="cart-item">
+          <div>
+            Gel hydroalcoolique
+            <div class="cart-item-qty">1 x 2 €</div>
+          </div>
+          <div>2 €</div>
+        </div>
+      </div>
+
+      <div class="cart-totals">
+        <div class="cart-total-row">
+          <span>Sous-total</span>
+          <span>8 €</span>
+        </div>
+        <div class="cart-total-row">
+          <span>Remise</span>
+          <span>0 €</span>
+        </div>
+        <div class="cart-total-row grand-total">
+          <span>Total</span>
+          <span>8 €</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="vente-paiement">Mode de paiement</label>
+        <select id="vente-paiement" name="paiement">
+          <option>Especes</option>
+          <option>Carte bancaire</option>
+          <option>Mobile money</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary">Annuler</button>
+        <button type="submit" class="btn btn-primary">Encaisser</button>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}

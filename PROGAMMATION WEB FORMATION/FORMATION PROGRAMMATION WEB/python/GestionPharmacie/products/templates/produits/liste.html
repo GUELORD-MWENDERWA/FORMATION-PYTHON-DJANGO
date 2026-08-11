@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% comment %}
+  produits/liste.html - liste des produits de la pharmacie.
+{% endcomment %}
+
+{% block title %}Produits - GestionPharmacie{% endblock %}
+
+{% block content %}
+
+  {# En-tete de la page : titre, bouton clair/sombre, bouton d'ajout #}
+  <div class="app-content-header">
+    <h1 class="app-content-headerText">Produits</h1>
+    {% include "partials/theme_switch.html" %}
+    <a href="{% url 'produits_form' %}" class="app-content-headerButton">Ajouter un produit</a>
+  </div>
+
+  {# Barre de recherche + filtres (categorie / statut) #}
+  {% include "partials/products_toolbar.html" %}
+
+  {# Tableau des produits #}
+  {% include "partials/products_table.html" %}
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% comment %}
+  ventes/liste.html - historique des ventes realisees.
+{% endcomment %}
+
+{% block title %}Ventes - GestionPharmacie{% endblock %}
+
+{% block content %}
+
+  <div class="app-content-header">
+    <h1 class="app-content-headerText">Ventes</h1>
+    {% include "partials/theme_switch.html" %}
+    <a href="{% url 'ventes_form' %}" class="app-content-headerButton">Nouvelle vente</a>
+  </div>
+
+  <div class="app-content-actions">
+    <input class="search-bar" placeholder="Rechercher une vente..." type="text" />
+  </div>
+
+  <div class="data-table-wrapper">
+    <div class="data-table-header">
+      <div class="data-cell shrink">N°</div>
+      <div class="data-cell grow">Client</div>
+      <div class="data-cell">Date</div>
+      <div class="data-cell">Articles</div>
+      <div class="data-cell">Total</div>
+      <div class="data-cell shrink">Statut</div>
+    </div>
+
+    <div class="data-row">
+      <div class="data-cell shrink">#1042</div>
+      <div class="data-cell grow">Jean Kalombo</div>
+      <div class="data-cell">11/08/2026 14:12</div>
+      <div class="data-cell">2</div>
+      <div class="data-cell">9 €</div>
+      <div class="data-cell shrink"><span class="status active">Payee</span></div>
+    </div>
+    <div class="data-row">
+      <div class="data-cell shrink">#1041</div>
+      <div class="data-cell grow">Marie Tshibangu</div>
+      <div class="data-cell">11/08/2026 13:50</div>
+      <div class="data-cell">1</div>
+      <div class="data-cell">7 €</div>
+      <div class="data-cell shrink"><span class="status active">Payee</span></div>
+    </div>
+    <div class="data-row">
+      <div class="data-cell shrink">#1040</div>
+      <div class="data-cell grow">Client de passage</div>
+      <div class="data-cell">11/08/2026 13:05</div>
+      <div class="data-cell">1</div>
+      <div class="data-cell">35 €</div>
+      <div class="data-cell shrink"><span class="status active">Payee</span></div>
+    </div>
+    <div class="data-row">
+      <div class="data-cell shrink">#1039</div>
+      <div class="data-cell grow">Pierre Mukendi</div>
+      <div class="data-cell">10/08/2026 17:40</div>
+      <div class="data-cell">3</div>
+      <div class="data-cell">21 €</div>
+      <div class="data-cell shrink"><span class="status warning">En attente</span></div>
+    </div>
+    <div class="data-row">
+      <div class="data-cell shrink">#1038</div>
+      <div class="data-cell grow">Sarah Ilunga</div>
+      <div class="data-cell">10/08/2026 11:22</div>
+      <div class="data-cell">2</div>
+      <div class="data-cell">12 €</div>
+      <div class="data-cell shrink"><span class="status danger">Annulee</span></div>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% comment %}
+  fournisseurs/form.html - ajout / modification d'un fournisseur.
+{% endcomment %}
+
+{% block title %}Ajouter un fournisseur - GestionPharmacie{% endblock %}
+
+{% block content %}
+
+  <div class="app-content-header">
+    <h1 class="app-content-headerText">Ajouter un fournisseur</h1>
+    {% include "partials/theme_switch.html" %}
+  </div>
+
+  <form class="form-card">
+    <div class="form-grid">
+      <div class="form-group full-width">
+        <label for="fournisseur-nom">Nom de l'entreprise</label>
+        <input type="text" id="fournisseur-nom" name="nom" placeholder="Ex. PharmaDistrib SARL" />
+      </div>
+
+      <div class="form-group">
+        <label for="fournisseur-contact">Personne de contact</label>
+        <input type="text" id="fournisseur-contact" name="contact" placeholder="Nom du contact" />
+      </div>
+      <div class="form-group">
+        <label for="fournisseur-telephone">Telephone</label>
+        <input type="tel" id="fournisseur-telephone" name="telephone" placeholder="+243 990 000 000" />
+      </div>
+
+      <div class="form-group">
+        <label for="fournisseur-email">Email</label>
+        <input type="email" id="fournisseur-email" name="email" placeholder="contact@fournisseur.cd" />
+      </div>
+      <div class="form-group">
+        <label for="fournisseur-adresse">Adresse</label>
+        <input type="text" id="fournisseur-adresse" name="adresse" placeholder="Adresse" />
+      </div>
+
+      <div class="form-group full-width">
+        <label for="fournisseur-notes">Notes</label>
+        <textarea id="fournisseur-notes" name="notes" placeholder="Conditions de livraison, delais habituels..."></textarea>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary">Annuler</button>
+      <button type="submit" class="btn btn-primary">Enregistrer le fournisseur</button>
+    </div>
+  </form>
+
+{% endblock %}

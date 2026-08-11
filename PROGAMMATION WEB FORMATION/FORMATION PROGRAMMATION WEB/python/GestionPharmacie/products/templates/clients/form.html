@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% comment %}
+  clients/form.html - ajout / modification d'un client.
+{% endcomment %}
+
+{% block title %}Ajouter un client - GestionPharmacie{% endblock %}
+
+{% block content %}
+
+  <div class="app-content-header">
+    <h1 class="app-content-headerText">Ajouter un client</h1>
+    {% include "partials/theme_switch.html" %}
+  </div>
+
+  <form class="form-card">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="client-nom">Nom</label>
+        <input type="text" id="client-nom" name="nom" placeholder="Nom de famille" />
+      </div>
+      <div class="form-group">
+        <label for="client-prenom">Prenom</label>
+        <input type="text" id="client-prenom" name="prenom" placeholder="Prenom" />
+      </div>
+
+      <div class="form-group">
+        <label for="client-telephone">Telephone</label>
+        <input type="tel" id="client-telephone" name="telephone" placeholder="+243 970 000 000" />
+      </div>
+      <div class="form-group">
+        <label for="client-email">Email</label>
+        <input type="email" id="client-email" name="email" placeholder="client@example.com" />
+      </div>
+
+      <div class="form-group">
+        <label for="client-naissance">Date de naissance</label>
+        <input type="date" id="client-naissance" name="date_naissance" />
+      </div>
+      <div class="form-group">
+        <label for="client-adresse">Adresse</label>
+        <input type="text" id="client-adresse" name="adresse" placeholder="Adresse" />
+      </div>
+
+      <div class="form-group full-width">
+        <label for="client-notes">Notes (allergies, traitements en cours...)</label>
+        <textarea id="client-notes" name="notes" placeholder="Informations utiles pour le pharmacien"></textarea>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary">Annuler</button>
+      <button type="submit" class="btn btn-primary">Enregistrer le client</button>
+    </div>
+  </form>
+
+{% endblock %}
