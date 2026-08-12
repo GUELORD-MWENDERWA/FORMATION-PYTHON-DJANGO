@@ -1,3 +1,0 @@
-
-structure de django :
-M V T : avec le M model, V : views,  T: template
