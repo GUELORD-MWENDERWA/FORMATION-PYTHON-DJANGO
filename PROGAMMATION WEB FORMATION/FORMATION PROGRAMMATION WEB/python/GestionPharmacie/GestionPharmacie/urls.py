@@ -17,7 +17,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+# Fichier d'URLs racine du PROJET (a distinguer de products/urls.py,
+# qui est le fichier d'URLs de l'APPLICATION "products"). Django lit
+# ce fichier en premier pour chaque requete, car ROOT_URLCONF pointe
+# vers "GestionPharmacie.urls" dans settings.py.
 urlpatterns = [
+    # /admin/... -> interface d'administration Django, fournie
+    # automatiquement par 'django.contrib.admin' (deja dans
+    # INSTALLED_APPS). Vide tant qu'aucun modele n'est enregistre
+    # dans products/admin.py.
     path('admin/', admin.site.urls),
+
+    # '' -> delegue TOUTES les autres URLs (/, /produits/, /stock/...)
+    # au fichier products/urls.py via include(). Ca permet de garder
+    # les routes de chaque application dans son propre dossier plutot
+    # que de tout entasser ici.
     path('', include('products.urls')),
 ]
