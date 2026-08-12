@@ -35,6 +35,11 @@ naturellement une application :
 8. [08 — Messages et erreurs de formulaire](08-messages-et-erreurs.md)
 9. [09 — Pour aller plus loin (exercices)](09-aller-plus-loin.md)
 10. [10 — Authentification et permissions](10-authentification-et-permissions.md)
+11. [11 — Guide complet et protocole de test](11-guide-complet-et-protocole-de-test.md)
+    — a garder ouvert pendant le cours : carte du projet (modeles,
+    URLs, permissions) et un protocole de test de bout en bout pour
+    verifier que tout fonctionne ensemble, pas seulement module par
+    module.
 
 Chaque fichier se termine par une section **"Testez"** avec des
 commandes ou des manipulations concretes a faire dans le navigateur

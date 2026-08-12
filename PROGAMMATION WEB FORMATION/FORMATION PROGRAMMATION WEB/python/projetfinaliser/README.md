@@ -9,7 +9,10 @@ branche (modeles, formulaires, vues CRUD, donnees de demonstration).
 
 Tout le parcours pedagogique, module par module, est dans le dossier
 [`docs/`](docs/00-introduction.md). Commencez par
-[`docs/00-introduction.md`](docs/00-introduction.md).
+[`docs/00-introduction.md`](docs/00-introduction.md). Pour une carte
+du projet et un protocole de test complet a faire tourner avant
+chaque cours, voir
+[`docs/11-guide-complet-et-protocole-de-test.md`](docs/11-guide-complet-et-protocole-de-test.md).
 
 ## Demarrage rapide
 
