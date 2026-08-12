@@ -30,12 +30,6 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-# Chaque application activee dans le projet doit figurer ici :
-# Django n'utilise que les apps listees (modeles, templates, fichiers
-# statiques...). Les six premieres lignes sont des applications
-# fournies par Django lui-meme (admin, authentification, sessions,
-# messages flash, fichiers statiques...) ; 'products' est notre
-# propre application, creee avec `python manage.py startapp products`.
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,11 +41,6 @@ INSTALLED_APPS = [
 
 ]
 
-# Une requete traverse cette liste de haut en bas avant d'atteindre la
-# vue, puis a nouveau de bas en haut pour la reponse. Par exemple
-# AuthenticationMiddleware est ce qui rend request.user disponible
-# partout, et MessageMiddleware ce qui alimente la variable `messages`
-# utilisee dans products/templates/partials/messages.html.
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -62,24 +51,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Indique a Django ou se trouve le fichier d'URLs racine du projet
-# (voir GestionPharmacie/urls.py).
 ROOT_URLCONF = 'GestionPharmacie.urls'
 
-# Configuration du moteur de templates.
-# - APP_DIRS: True -> Django cherche automatiquement un dossier
-#   templates/ dans chaque application installee (ici
-#   products/templates/), sans avoir besoin de le declarer dans DIRS.
-# - context_processors -> variables injectees automatiquement dans le
-#   contexte de CHAQUE template, sans que la vue ait besoin de les
-#   passer explicitement : "request" (utilisee par ex. dans
-#   partials/sidebar.html pour surligner le lien actif), "auth"
-#   (rend `user` disponible) et "messages" (rend `messages`
-#   disponible, voir partials/messages.html).
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates',],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -97,12 +74,6 @@ WSGI_APPLICATION = 'GestionPharmacie.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
-# SQLite est utilise ici : une base de donnees legere stockee dans un
-# seul fichier (db.sqlite3, a la racine du projet), ideale pour
-# apprendre et developper en local sans installer de serveur de base
-# de donnees a part. C'est cette configuration que l'ORM Django (les
-# futurs modeles de products/models.py) utilisera pour lire/ecrire des
-# donnees, via les commandes `makemigrations` puis `migrate`.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -145,11 +116,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
-# Prefixe d'URL sous lequel les fichiers statiques sont servis, ex.
-# products/static/css/style.css devient /static/css/style.css. Dans
-# les templates, on ne l'ecrit jamais en dur : {% load static %} puis
-# {% static 'css/style.css' %} (voir base.html) generent l'URL a
-# partir de ce reglage.
 STATIC_URL = 'static/'
 
 
