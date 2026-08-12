@@ -52,7 +52,8 @@ db.sqlite3-journal
 # ====================================================================
 # ÉDITEURS DE CODE (VS CODE, PYCHARM) ET SYSTÈME
 # ====================================================================
-.vscode/
+.vscode/*
+!.vscode/settings.json
 .idea/
 *.suo
 *.ntvs*
