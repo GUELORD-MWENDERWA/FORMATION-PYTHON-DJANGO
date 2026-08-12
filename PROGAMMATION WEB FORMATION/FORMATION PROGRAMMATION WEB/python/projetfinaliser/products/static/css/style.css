@@ -1378,3 +1378,82 @@ a.app-content-headerButton {
     position: static !important;
   }
 }
+
+/* --- Messages Django (succes / erreur / info) --- */
+.app-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.app-message {
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-size: 14px;
+  border: 1px solid transparent;
+}
+.app-message.success {
+  color: #2ba972;
+  background-color: rgba(43, 169, 114, 0.12);
+  border-color: rgba(43, 169, 114, 0.35);
+}
+.app-message.error {
+  color: var(--status-danger);
+  background-color: rgba(224, 85, 95, 0.12);
+  border-color: rgba(224, 85, 95, 0.35);
+}
+.app-message.warning {
+  color: var(--status-warning);
+  background-color: rgba(214, 154, 45, 0.12);
+  border-color: rgba(214, 154, 45, 0.35);
+}
+.app-message.info {
+  color: var(--status-info);
+  background-color: rgba(40, 105, 255, 0.12);
+  border-color: rgba(40, 105, 255, 0.35);
+}
+
+/* --- Erreurs de formulaire --- */
+.form-errors {
+  color: var(--status-danger);
+  background-color: rgba(224, 85, 95, 0.12);
+  border: 1px solid rgba(224, 85, 95, 0.35);
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+.form-errors ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.form-group .field-error {
+  color: var(--status-danger);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* --- Actions de ligne dans un tableau (modifier / supprimer) --- */
+.row-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.row-actions a,
+.row-actions button {
+  color: var(--app-content-main-color);
+  opacity: 0.7;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+}
+.row-actions a:hover,
+.row-actions button:hover {
+  opacity: 1;
+  color: var(--action-color);
+}
+.row-actions button.danger:hover {
+  color: var(--status-danger);
+}
