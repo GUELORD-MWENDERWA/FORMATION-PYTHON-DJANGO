@@ -1,25 +1,56 @@
 {% load static %}
-<!doctype html>
+{% comment %}
+  base.html - gabarit principal de l'application.
+  Toutes les pages du site heritent de ce fichier avec {% extends %}
+  et ne redefinissent que les blocs ci-dessous.
+
+  Structure pensee pour rester utilisable sur tous les ecrans :
+  - .app-content-scroll est le SEUL conteneur qui defile. Chaque page
+    peut donc etre aussi longue qu'elle veut, tout reste atteignable
+    en scrollant (molette, trackpad, barre de defilement ou tactile).
+  - En dessous de 1024px, .sidebar devient un tiroir masque par
+    defaut. .mobile-topbar (hamburger + nom de l'appli) reste, elle,
+    toujours visible en haut de chaque page : la navigation n'est
+    donc jamais bloquee, meme tout en bas d'une longue page.
+{% endcomment %}
+<!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}GestionPharmacie{% endblock %}</title>
 
+    {# Reset CSS externe #}
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
     />
+    {# Feuille de style propre au projet #}
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
     {% block extra_css %}{% endblock %}
   </head>
   <body>
     <div class="app-container">
+      {# Menu de navigation lateral, identique sur toutes les pages #}
       {% include "partials/sidebar.html" %}
+
+      {% comment %}
+        Fond assombri derriere le tiroir de navigation mobile : un
+        clic dessus referme le menu (comme Gmail / Drive sur mobile).
+        Invisible et non cliquable au-dessus de 1024px.
+      {% endcomment %}
       <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
+      {# Zone de contenu propre a chaque page #}
       <div class="app-content">
+
+        {% comment %}
+          Barre visible uniquement en dessous de 1024px : le bouton
+          hamburger y est toujours accessible, quelle que soit la
+          page affichee, pour ne jamais laisser l'utilisateur bloque
+          sans moyen de naviguer ailleurs.
+        {% endcomment %}
         <div class="mobile-topbar">
           <button
             type="button"
@@ -29,17 +60,7 @@
             aria-controls="sidebar"
             aria-expanded="false"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="3" y1="6" x2="21" y2="6" />
               <line x1="3" y1="12" x2="21" y2="12" />
               <line x1="3" y1="18" x2="21" y2="18" />
@@ -56,6 +77,11 @@
           </div>
         </div>
 
+        {% comment %}
+          Seul element qui defile : garantit que le contenu de
+          chaque page reste consultable jusqu'au bout, sur tous les
+          formats d'ecran.
+        {% endcomment %}
         <div class="app-content-scroll">
           {% include "partials/messages.html" %}
           {% block content %}{% endblock %}
@@ -63,6 +89,7 @@
       </div>
     </div>
 
+    {# Script JS commun a toutes les pages #}
     <script src="{% static 'js/script.js' %}"></script>
     {% block extra_js %}{% endblock %}
   </body>

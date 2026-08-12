@@ -1,0 +1,111 @@
+[
+  {"model": "products.categorie", "pk": 1, "fields": {"nom": "Medicaments"}},
+  {"model": "products.categorie", "pk": 2, "fields": {"nom": "Parapharmacie"}},
+  {"model": "products.categorie", "pk": 3, "fields": {"nom": "Materiel medical"}},
+  {"model": "products.categorie", "pk": 4, "fields": {"nom": "Hygiene"}},
+
+  {"model": "products.fournisseur", "pk": 1, "fields": {
+    "nom": "PharmaDistrib SARL", "contact": "Alain Ngoy",
+    "telephone": "+243 990 000 001", "email": "contact@pharmadistrib.cd",
+    "adresse": "45 Avenue Mobutu, Lubumbashi", "notes": "", "actif": true
+  }},
+  {"model": "products.fournisseur", "pk": 2, "fields": {
+    "nom": "MediGros", "contact": "Claudine Kabeya",
+    "telephone": "+243 990 000 002", "email": "contact@medigros.cd",
+    "adresse": "12 Boulevard Kamanyola, Lubumbashi", "notes": "", "actif": true
+  }},
+  {"model": "products.fournisseur", "pk": 3, "fields": {
+    "nom": "SantePlus Grossiste", "contact": "Eric Kabongo",
+    "telephone": "+243 990 000 003", "email": "contact@santeplus.cd",
+    "adresse": "8 Avenue de la Paix, Lubumbashi", "notes": "", "actif": false
+  }},
+
+  {"model": "products.produit", "pk": 1, "fields": {
+    "nom": "Doliprane 1000mg", "categorie": 1, "fournisseur": 1,
+    "prix": "3.00", "prix_achat": "1.80", "stock": 66, "seuil_alerte": 20,
+    "lot": "L2401", "date_peremption": "2027-03-01", "actif": true,
+    "image": "", "description": "Paracetamol 1000mg, boite de 8 comprimes."
+  }},
+  {"model": "products.produit", "pk": 2, "fields": {
+    "nom": "Amoxicilline 500mg", "categorie": 1, "fournisseur": 2,
+    "prix": "7.00", "prix_achat": "4.20", "stock": 18, "seuil_alerte": 15,
+    "lot": "L2309", "date_peremption": "2026-08-26", "actif": false,
+    "image": "", "description": "Antibiotique, boite de 12 gelules."
+  }},
+  {"model": "products.produit", "pk": 3, "fields": {
+    "nom": "Gel hydroalcoolique", "categorie": 4, "fournisseur": 2,
+    "prix": "2.00", "prix_achat": "1.00", "stock": 4, "seuil_alerte": 10,
+    "lot": "L2205", "date_peremption": "2027-11-01", "actif": true,
+    "image": "", "description": "Flacon 100ml."
+  }},
+  {"model": "products.produit", "pk": 4, "fields": {
+    "nom": "Creme hydratante", "categorie": 2, "fournisseur": 3,
+    "prix": "9.00", "prix_achat": "5.00", "stock": 40, "seuil_alerte": 10,
+    "lot": "L2118", "date_peremption": "2028-06-01", "actif": true,
+    "image": "", "description": "Tube 50ml, peau sensible."
+  }},
+  {"model": "products.produit", "pk": 5, "fields": {
+    "nom": "Tensiometre digital", "categorie": 3, "fournisseur": 1,
+    "prix": "35.00", "prix_achat": "22.00", "stock": 2, "seuil_alerte": 5,
+    "lot": "", "date_peremption": null, "actif": true,
+    "image": "", "description": "Tensiometre electronique bras, ecran LCD."
+  }},
+  {"model": "products.produit", "pk": 6, "fields": {
+    "nom": "Paracetamol 500mg", "categorie": 1, "fournisseur": 3,
+    "prix": "3.00", "prix_achat": "1.50", "stock": 0, "seuil_alerte": 15,
+    "lot": "L2350", "date_peremption": "2027-09-01", "actif": true,
+    "image": "", "description": "Boite de 16 comprimes."
+  }},
+
+  {"model": "products.client", "pk": 1, "fields": {
+    "nom": "Kalombo", "prenom": "Jean", "telephone": "+243 970 000 001",
+    "email": "jean.kalombo@example.com", "date_naissance": "1985-04-12",
+    "adresse": "Quartier Golf, Lubumbashi", "notes": ""
+  }},
+  {"model": "products.client", "pk": 2, "fields": {
+    "nom": "Tshibangu", "prenom": "Marie", "telephone": "+243 970 000 002",
+    "email": "marie.tshibangu@example.com", "date_naissance": "1990-09-23",
+    "adresse": "Quartier Kenya, Lubumbashi", "notes": "Allergie a la penicilline"
+  }},
+  {"model": "products.client", "pk": 3, "fields": {
+    "nom": "Mukendi", "prenom": "Pierre", "telephone": "+243 970 000 003",
+    "email": "pierre.mukendi@example.com", "date_naissance": "1978-01-30",
+    "adresse": "Quartier Bel-Air, Lubumbashi", "notes": ""
+  }},
+  {"model": "products.client", "pk": 4, "fields": {
+    "nom": "Ilunga", "prenom": "Sarah", "telephone": "+243 970 000 004",
+    "email": "sarah.ilunga@example.com", "date_naissance": "1995-11-05",
+    "adresse": "Quartier Katuba, Lubumbashi", "notes": ""
+  }},
+
+  {"model": "products.vente", "pk": 1, "fields": {
+    "client": 1, "date": "2026-08-11T14:12:00Z", "mode_paiement": "especes",
+    "statut": "payee", "remise": "0.00"
+  }},
+  {"model": "products.vente", "pk": 2, "fields": {
+    "client": 2, "date": "2026-08-11T13:50:00Z", "mode_paiement": "carte",
+    "statut": "payee", "remise": "0.00"
+  }},
+  {"model": "products.vente", "pk": 3, "fields": {
+    "client": null, "date": "2026-08-11T13:05:00Z", "mode_paiement": "especes",
+    "statut": "payee", "remise": "0.00"
+  }},
+  {"model": "products.vente", "pk": 4, "fields": {
+    "client": 3, "date": "2026-08-10T17:40:00Z", "mode_paiement": "mobile_money",
+    "statut": "en_attente", "remise": "0.00"
+  }},
+  {"model": "products.vente", "pk": 5, "fields": {
+    "client": 4, "date": "2026-08-10T11:22:00Z", "mode_paiement": "especes",
+    "statut": "annulee", "remise": "0.00"
+  }},
+
+  {"model": "products.lignevente", "pk": 1, "fields": {"vente": 1, "produit": 1, "quantite": 2, "prix_unitaire": "3.00"}},
+  {"model": "products.lignevente", "pk": 2, "fields": {"vente": 1, "produit": 3, "quantite": 1, "prix_unitaire": "2.00"}},
+  {"model": "products.lignevente", "pk": 3, "fields": {"vente": 2, "produit": 2, "quantite": 1, "prix_unitaire": "7.00"}},
+  {"model": "products.lignevente", "pk": 4, "fields": {"vente": 3, "produit": 5, "quantite": 1, "prix_unitaire": "35.00"}},
+  {"model": "products.lignevente", "pk": 5, "fields": {"vente": 4, "produit": 1, "quantite": 2, "prix_unitaire": "3.00"}},
+  {"model": "products.lignevente", "pk": 6, "fields": {"vente": 4, "produit": 4, "quantite": 1, "prix_unitaire": "9.00"}},
+  {"model": "products.lignevente", "pk": 7, "fields": {"vente": 4, "produit": 3, "quantite": 3, "prix_unitaire": "2.00"}},
+  {"model": "products.lignevente", "pk": 8, "fields": {"vente": 5, "produit": 2, "quantite": 1, "prix_unitaire": "7.00"}},
+  {"model": "products.lignevente", "pk": 9, "fields": {"vente": 5, "produit": 1, "quantite": 1, "prix_unitaire": "3.00"}}
+]
