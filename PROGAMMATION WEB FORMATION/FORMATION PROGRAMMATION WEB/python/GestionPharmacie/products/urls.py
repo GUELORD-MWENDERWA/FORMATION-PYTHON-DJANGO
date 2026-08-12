@@ -1,7 +1,21 @@
 from django.urls import path
 from . import views
 
-
+# Fichier d'URLs de l'application "products". Inclus depuis
+# GestionPharmacie/urls.py via include('products.urls').
+#
+# Chaque path() associe :
+#   1. un motif d'URL (ex. 'produits/'),
+#   2. une vue a appeler dans views.py (ex. views.produits_liste),
+#   3. un nom (name=...) qui permet de generer le lien sans jamais
+#      ecrire l'URL en dur, ni dans les vues (reverse('produits_liste'))
+#      ni dans les templates ({% url 'produits_liste' %}, voir
+#      products/templates/partials/sidebar.html). Si l'URL change un
+#      jour, seul le path() ci-dessous doit etre modifie.
+#
+# <int:pk> (voir 'factures/<int:pk>/') capture un nombre entier dans
+# l'URL et le transmet a la vue comme argument pk (ex: /factures/12/
+# appelle factures_detail(request, pk=12)).
 urlpatterns = [
     path('', views.home, name='home'),
 
