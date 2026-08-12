@@ -2,13 +2,19 @@
   partials/sidebar.html - menu de navigation lateral.
   Inclus dans base.html : visible sur toutes les pages.
   Les liens utilisent {% url %} vers les vues de products/urls.py.
-  Aucun element n'a la classe "active" codee en dur : ce sera
-  determine plus tard selon la page reellement affichee
-  (comparaison avec request.path, ou {% url %} + request.resolver_match).
-{% endcomment %}
-<div class="sidebar">
 
-  {# Logo de l'application #}
+  En dessous de 1024px ce panneau devient un tiroir masque par
+  defaut (voir style.css) : .menu-toggle dans base.html l'ouvre,
+  .sidebar-overlay / .sidebar-close / Echap le referment (script.js).
+
+  La classe "active" est calculee ici via request.resolver_match,
+  disponible car "django.template.context_processors.request" est
+  active dans settings.py. Un module actif reste surligne aussi
+  bien depuis sa page de liste que depuis son formulaire.
+{% endcomment %}
+<div class="sidebar" id="sidebar">
+
+  {# Logo de l'application + bouton de fermeture (tiroir mobile) #}
   <div class="sidebar-header">
     <div class="app-icon">
       <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -18,12 +24,23 @@
         />
       </svg>
     </div>
+    <button
+      type="button"
+      class="sidebar-close"
+      id="sidebarClose"
+      aria-label="Fermer le menu de navigation"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </button>
   </div>
 
   {# Liste des modules de l'application #}
   <ul class="sidebar-list">
-    <li class="sidebar-list-item">
-      <a href="{% url 'home' %}">
+    <li class="sidebar-list-item{% if request.resolver_match.url_name == 'home' %} active{% endif %}">
+      <a href="{% url 'home' %}"{% if request.resolver_match.url_name == 'home' %} aria-current="page"{% endif %}>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
           <polyline points="9 22 9 12 15 12 15 22" />
@@ -31,8 +48,8 @@
         <span>Accueil</span>
       </a>
     </li>
-    <li class="sidebar-list-item">
-      <a href="{% url 'produits_liste' %}">
+    <li class="sidebar-list-item{% if request.resolver_match.url_name == 'produits_liste' or request.resolver_match.url_name == 'produits_form' %} active{% endif %}">
+      <a href="{% url 'produits_liste' %}"{% if request.resolver_match.url_name == 'produits_liste' or request.resolver_match.url_name == 'produits_form' %} aria-current="page"{% endif %}>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-bag">
           <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
           <line x1="3" y1="6" x2="21" y2="6" />
@@ -41,8 +58,8 @@
         <span>Produits</span>
       </a>
     </li>
-    <li class="sidebar-list-item">
-      <a href="{% url 'stock_liste' %}">
+    <li class="sidebar-list-item{% if request.resolver_match.url_name == 'stock_liste' %} active{% endif %}">
+      <a href="{% url 'stock_liste' %}"{% if request.resolver_match.url_name == 'stock_liste' %} aria-current="page"{% endif %}>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-package">
           <path d="M16.5 9.4 7.55 4.24" />
           <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
@@ -52,8 +69,8 @@
         <span>Stock</span>
       </a>
     </li>
-    <li class="sidebar-list-item">
-      <a href="{% url 'ventes_liste' %}">
+    <li class="sidebar-list-item{% if request.resolver_match.url_name == 'ventes_liste' or request.resolver_match.url_name == 'ventes_form' %} active{% endif %}">
+      <a href="{% url 'ventes_liste' %}"{% if request.resolver_match.url_name == 'ventes_liste' or request.resolver_match.url_name == 'ventes_form' %} aria-current="page"{% endif %}>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart">
           <circle cx="9" cy="21" r="1" />
           <circle cx="20" cy="21" r="1" />
@@ -62,8 +79,8 @@
         <span>Ventes</span>
       </a>
     </li>
-    <li class="sidebar-list-item">
-      <a href="{% url 'clients_liste' %}">
+    <li class="sidebar-list-item{% if request.resolver_match.url_name == 'clients_liste' or request.resolver_match.url_name == 'clients_form' %} active{% endif %}">
+      <a href="{% url 'clients_liste' %}"{% if request.resolver_match.url_name == 'clients_liste' or request.resolver_match.url_name == 'clients_form' %} aria-current="page"{% endif %}>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users">
           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
           <circle cx="9" cy="7" r="4" />
@@ -73,8 +90,8 @@
         <span>Clients</span>
       </a>
     </li>
-    <li class="sidebar-list-item">
-      <a href="{% url 'fournisseurs_liste' %}">
+    <li class="sidebar-list-item{% if request.resolver_match.url_name == 'fournisseurs_liste' or request.resolver_match.url_name == 'fournisseurs_form' %} active{% endif %}">
+      <a href="{% url 'fournisseurs_liste' %}"{% if request.resolver_match.url_name == 'fournisseurs_liste' or request.resolver_match.url_name == 'fournisseurs_form' %} aria-current="page"{% endif %}>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck">
           <rect x="1" y="3" width="15" height="13" />
           <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
@@ -84,8 +101,8 @@
         <span>Fournisseurs</span>
       </a>
     </li>
-    <li class="sidebar-list-item">
-      <a href="{% url 'factures_liste' %}">
+    <li class="sidebar-list-item{% if request.resolver_match.url_name == 'factures_liste' or request.resolver_match.url_name == 'factures_detail' %} active{% endif %}">
+      <a href="{% url 'factures_liste' %}"{% if request.resolver_match.url_name == 'factures_liste' or request.resolver_match.url_name == 'factures_detail' %} aria-current="page"{% endif %}>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
           <polyline points="14 2 14 8 20 8" />
@@ -96,8 +113,8 @@
         <span>Factures</span>
       </a>
     </li>
-    <li class="sidebar-list-item">
-      <a href="{% url 'statistiques' %}">
+    <li class="sidebar-list-item{% if request.resolver_match.url_name == 'statistiques' %} active{% endif %}">
+      <a href="{% url 'statistiques' %}"{% if request.resolver_match.url_name == 'statistiques' %} aria-current="page"{% endif %}>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-pie-chart">
           <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
           <path d="M22 12A10 10 0 0 0 12 2v10z" />
@@ -105,8 +122,8 @@
         <span>Statistiques</span>
       </a>
     </li>
-    <li class="sidebar-list-item">
-      <a href="{% url 'notifications' %}">
+    <li class="sidebar-list-item{% if request.resolver_match.url_name == 'notifications' %} active{% endif %}">
+      <a href="{% url 'notifications' %}"{% if request.resolver_match.url_name == 'notifications' %} aria-current="page"{% endif %}>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell">
           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
           <path d="M13.73 21a2 2 0 0 1-3.46 0" />
@@ -114,8 +131,8 @@
         <span>Notifications</span>
       </a>
     </li>
-    <li class="sidebar-list-item">
-      <a href="{% url 'parametres' %}">
+    <li class="sidebar-list-item{% if request.resolver_match.url_name == 'parametres' %} active{% endif %}">
+      <a href="{% url 'parametres' %}"{% if request.resolver_match.url_name == 'parametres' %} aria-current="page"{% endif %}>
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings">
           <circle cx="12" cy="12" r="3" />
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
