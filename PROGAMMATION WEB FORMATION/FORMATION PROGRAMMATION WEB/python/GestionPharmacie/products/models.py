@@ -1,4 +1,8 @@
+from datetime import timedelta
+
 from django.db import models
+from django.core.validators import MaxValueValidator
+from django.utils import timezone
 
 # Create your models here.
 class Categorie(models.Model):
@@ -47,4 +51,66 @@ class Client(models.Model):
 
 
 class Produit(models.Model):
-   pass   
+   nom = models.CharField(max_length=150)
+   categorie = models.ForeignKey(Categorie, on_delete=models.PROTECT, related_name='produits', 
+                                 blank=True, null=True) 
+   fournisseur = models.ForeignKey(Fournisseur, on_delete=models.SET_NULL, related_name='produits',
+                                   blank=True, null=True)
+   prix = models.DecimalField("Prix de vente (€)", max_digits=10, decimal_places=2, 
+                              validators=[MaxValueValidator(0)])
+   prix_achat = models.DecimalField("Prix d'achat en (€)", max_digits=10, decimal_places=2,
+                                     validators=[MaxValueValidator(0)], null=True, blank=True)
+   stock =models.PositiveIntegerField("Quantinte en stock", default=0)
+   seuil_alerte = models.PositiveIntegerField("Seuil alerte", default=0)
+   lot = models.CharField("Numerro de lot", max_length=50, blank=True)
+   date_peremption = models.DateField(null=True, blank=True)
+   actif = models.BooleanField(default=True)
+   image = models.ImageField(upload_to='produits/', blank=True, null=True)
+   description = models.TextField(blank=True)
+
+   class Meta:
+      ordering = ['nom']
+
+   def __str__(self):
+      return self.nom   
+   @property
+   def en_rupture(self):
+      return self.stock == 0
+
+   @property
+   def stock_faible(self):
+       return  0 < self.stock <= self.seuil_alerte
+
+   @property
+   def peremption_proche(self):
+      if not self.date_peremption:
+         return False
+      return self.date_peremption <= timezone.localdate() + timedelta(days=30)
+
+
+class Vente(models.Model):
+   class ModePaiement(models.TextChoices):
+      ESPECES = 'especes','Especes'
+      CARTE ='carte','Carte bancaire'
+      MOBILE_MONEY = 'mobile_money', 'Mobile money'
+
+   class Statut(models.TextChoices):
+      PAYEE = 'payee', 'Payee'
+      EN_ENTENTE = 'en_entente', 'En antente'
+      IMPAYEE = 'impayee', 'Impayee'
+      ANNULERR = 'annulee', 'Annulee'
+   client = models.ForeignKey(Client, on_delete=models.SET_NULL, related_name='ventes',
+                              null=True, blank=True, help_text='vide = client de passage')
+   date = models.DateTimeField(auto_now_add=True)
+   mode_paiement = models.CharField(max_length=20, choices=ModePaiement.choices,
+                                     default=ModePaiement.ESPECES)
+   statut = models.CharField(max_length=20, choices=Statut.choices, 
+                             default=Statut.IMPAYEE)
+   remise = models.DecimalField("Remise en (€)", max_digits=10, 
+                                decimal_places=2, default=0)
+
+   class Meta:
+      ordering = ['-date']
+
+   def __str__(self):
+      pass 
