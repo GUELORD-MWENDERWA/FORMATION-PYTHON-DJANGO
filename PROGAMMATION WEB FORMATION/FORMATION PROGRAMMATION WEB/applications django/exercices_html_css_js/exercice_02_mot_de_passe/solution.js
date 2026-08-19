@@ -1,1 +1,0 @@
-const pwd=document.getElementById("pwd");const t=document.getElementById("toggle");t.onclick=()=>{if(pwd.type=="password"){pwd.type="text";t.textContent="Cacher";}else{pwd.type="password";t.textContent="Afficher";}}

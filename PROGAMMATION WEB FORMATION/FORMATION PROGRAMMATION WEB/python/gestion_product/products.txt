@@ -1,2 +1,0 @@
-clavier|25.0|3
-mangue|23.0|45

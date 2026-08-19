@@ -1,1 +1,0 @@
-document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll("#a,#b").forEach(d=>d.style.display="none");document.getElementById(b.dataset.tab).style.display="block";});

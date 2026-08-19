@@ -1,1 +1,0 @@
-document.querySelectorAll("#q button").forEach(b=>b.onclick=e=>{document.getElementById("out").textContent = e.target.dataset.a=="1"?"Correct":"Incorrect";} );
