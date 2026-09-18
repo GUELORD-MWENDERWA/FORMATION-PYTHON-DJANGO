@@ -1,3 +1,10 @@
 # Projet de reference complet et finalise : vit uniquement sur la
 # branche gestion-pharmacie-final, jamais sur feature-dev ni main.
 projetfinaliser/
+
+# Environnement virtuel Python (ne doit jamais etre commite : gros,
+# specifique a la machine, remplace par requirements.txt)
+env/
+env.bak/
+__pycache__/
+*.pyc
