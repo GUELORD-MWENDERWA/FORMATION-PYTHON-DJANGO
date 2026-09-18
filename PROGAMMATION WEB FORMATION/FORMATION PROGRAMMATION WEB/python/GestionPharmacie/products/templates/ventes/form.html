@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% comment %}
   ventes/form.html - point de vente (nouvelle vente).
-  Catalogue a gauche, panier a droite. Aucune interaction JS
-  pour l'instant : ce sera branche lors de l'integration Django.
+  Catalogue a gauche (rappel des prix des produits actifs), formulaire
+  de vente a droite : client, remise, moyen de paiement, et un
+  formset Django (LigneVenteFormSet) pour choisir les produits et
+  quantites vendus. Voir products/views.py::ventes_form et
+  products/forms.py pour le detail du formset.
 {% endcomment %}
 
 {% block title %}Nouvelle vente - GestionPharmacie{% endblock %}
@@ -17,90 +20,65 @@
     {% include "partials/theme_switch.html" %}
   </div>
 
-  <div class="app-content-actions">
-    <input class="search-bar" placeholder="Rechercher un produit a ajouter..." type="text" />
-  </div>
+  <form method="post" class="pos-layout">
+    {% csrf_token %}
 
-  <div class="pos-layout">
-
-    {# Catalogue de produits #}
+    {# Catalogue de produits actifs : simple rappel des prix #}
     <div class="pos-catalog">
+      {% for produit in produits_catalogue %}
       <div class="pos-product-card">
-        <p class="pos-product-name">Doliprane 1000mg</p>
-        <span class="pos-product-price">3 €</span>
+        <p class="pos-product-name">{{ produit.nom }}</p>
+        <span class="pos-product-price">{{ produit.prix }} € — stock {{ produit.stock }}</span>
       </div>
-      <div class="pos-product-card">
-        <p class="pos-product-name">Amoxicilline 500mg</p>
-        <span class="pos-product-price">7 €</span>
-      </div>
-      <div class="pos-product-card">
-        <p class="pos-product-name">Gel hydroalcoolique</p>
-        <span class="pos-product-price">2 €</span>
-      </div>
-      <div class="pos-product-card">
-        <p class="pos-product-name">Creme hydratante</p>
-        <span class="pos-product-price">9 €</span>
-      </div>
-      <div class="pos-product-card">
-        <p class="pos-product-name">Tensiometre digital</p>
-        <span class="pos-product-price">35 €</span>
-      </div>
-      <div class="pos-product-card">
-        <p class="pos-product-name">Paracetamol 500mg</p>
-        <span class="pos-product-price">3 €</span>
-      </div>
+      {% empty %}
+      <p style="padding:16px;opacity:0.7;">Aucun produit actif. Ajoutez-en depuis la page Produits.</p>
+      {% endfor %}
     </div>
 
-    {# Panier en cours #}
+    {# Panier : formulaire de vente + lignes de produits vendus #}
     <div class="cart-panel">
+
+      {% if vente_form.non_field_errors or formset.non_form_errors %}
+        <div class="form-errors">
+          <ul>
+            {% for error in vente_form.non_field_errors %}<li>{{ error }}</li>{% endfor %}
+            {% for error in formset.non_form_errors %}<li>{{ error }}</li>{% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
       <div class="form-group">
-        <label for="vente-client">Client</label>
-        <select id="vente-client" name="client">
-          <option>Client de passage</option>
-          <option>Jean Kalombo</option>
-          <option>Marie Tshibangu</option>
-        </select>
+        <label for="{{ vente_form.client.id_for_label }}">Client</label>
+        {{ vente_form.client }}
       </div>
 
+      {{ formset.management_form }}
       <div class="cart-items">
-        <div class="cart-item">
-          <div>
-            Doliprane 1000mg
-            <div class="cart-item-qty">2 x 3 €</div>
+        {% for ligne_form in formset %}
+          <div class="cart-item">
+            <div style="flex:1;display:flex;gap:8px;flex-wrap:wrap;">
+              {{ ligne_form.produit }}
+              {{ ligne_form.quantite }}
+            </div>
           </div>
-          <div>6 €</div>
-        </div>
-        <div class="cart-item">
-          <div>
-            Gel hydroalcoolique
-            <div class="cart-item-qty">1 x 2 €</div>
-          </div>
-          <div>2 €</div>
-        </div>
-      </div>
-
-      <div class="cart-totals">
-        <div class="cart-total-row">
-          <span>Sous-total</span>
-          <span>8 €</span>
-        </div>
-        <div class="cart-total-row">
-          <span>Remise</span>
-          <span>0 €</span>
-        </div>
-        <div class="cart-total-row grand-total">
-          <span>Total</span>
-          <span>8 €</span>
-        </div>
+          {% if ligne_form.errors %}
+            <span class="field-error">
+              {{ ligne_form.errors.produit|join:", " }}
+              {{ ligne_form.errors.quantite|join:", " }}
+              {{ ligne_form.non_field_errors|join:", " }}
+            </span>
+          {% endif %}
+        {% endfor %}
       </div>
 
       <div class="form-group">
-        <label for="vente-paiement">Mode de paiement</label>
-        <select id="vente-paiement" name="paiement">
-          <option>Especes</option>
-          <option>Carte bancaire</option>
-          <option>Mobile money</option>
-        </select>
+        <label for="{{ vente_form.remise.id_for_label }}">Remise (€)</label>
+        {{ vente_form.remise }}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ vente_form.mode_paiement.id_for_label }}">Mode de paiement</label>
+        {{ vente_form.mode_paiement }}
       </div>
 
       <div class="form-actions">
@@ -109,6 +87,6 @@
       </div>
     </div>
 
-  </div>
+  </form>
 
 {% endblock %}

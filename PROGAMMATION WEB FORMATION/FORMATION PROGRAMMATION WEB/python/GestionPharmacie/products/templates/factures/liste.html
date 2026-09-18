@@ -25,27 +25,19 @@
       <div class="data-cell shrink">Statut</div>
     </div>
 
+    {% for vente in ventes %}
     <div class="data-row">
-      <div class="data-cell shrink">F-2026-1042</div>
-      <div class="data-cell grow">Jean Kalombo</div>
-      <div class="data-cell">11/08/2026</div>
-      <div class="data-cell">9 €</div>
-      <div class="data-cell shrink"><span class="status active">Payee</span></div>
+      <div class="data-cell shrink">
+        <a href="{% url 'factures_detail' vente.pk %}">{{ vente.numero_facture }}</a>
+      </div>
+      <div class="data-cell grow">{{ vente.client|default:"Client de passage" }}</div>
+      <div class="data-cell">{{ vente.date|date:"d/m/Y" }}</div>
+      <div class="data-cell">{{ vente.total }} €</div>
+      <div class="data-cell shrink"><span class="status {{ vente.statut_css }}">{{ vente.get_statut_display }}</span></div>
     </div>
-    <div class="data-row">
-      <div class="data-cell shrink">F-2026-1041</div>
-      <div class="data-cell grow">Marie Tshibangu</div>
-      <div class="data-cell">11/08/2026</div>
-      <div class="data-cell">7 €</div>
-      <div class="data-cell shrink"><span class="status active">Payee</span></div>
-    </div>
-    <div class="data-row">
-      <div class="data-cell shrink">F-2026-1039</div>
-      <div class="data-cell grow">Pierre Mukendi</div>
-      <div class="data-cell">10/08/2026</div>
-      <div class="data-cell">21 €</div>
-      <div class="data-cell shrink"><span class="status warning">Impayee</span></div>
-    </div>
+    {% empty %}
+    <p style="padding:16px;opacity:0.7;">Aucune facture pour le moment.</p>
+    {% endfor %}
   </div>
 
 {% endblock %}

@@ -27,46 +27,20 @@
       <div class="data-cell shrink">Statut</div>
     </div>
 
+    {% for vente in ventes %}
     <div class="data-row">
-      <div class="data-cell shrink">#1042</div>
-      <div class="data-cell grow">Jean Kalombo</div>
-      <div class="data-cell">11/08/2026 14:12</div>
-      <div class="data-cell">2</div>
-      <div class="data-cell">9 €</div>
-      <div class="data-cell shrink"><span class="status active">Payee</span></div>
+      <div class="data-cell shrink">
+        <a href="{% url 'factures_detail' vente.pk %}">{{ vente.numero }}</a>
+      </div>
+      <div class="data-cell grow">{{ vente.client|default:"Client de passage" }}</div>
+      <div class="data-cell">{{ vente.date|date:"d/m/Y H:i" }}</div>
+      <div class="data-cell">{{ vente.nb_articles }}</div>
+      <div class="data-cell">{{ vente.total }} €</div>
+      <div class="data-cell shrink"><span class="status {{ vente.statut_css }}">{{ vente.get_statut_display }}</span></div>
     </div>
-    <div class="data-row">
-      <div class="data-cell shrink">#1041</div>
-      <div class="data-cell grow">Marie Tshibangu</div>
-      <div class="data-cell">11/08/2026 13:50</div>
-      <div class="data-cell">1</div>
-      <div class="data-cell">7 €</div>
-      <div class="data-cell shrink"><span class="status active">Payee</span></div>
-    </div>
-    <div class="data-row">
-      <div class="data-cell shrink">#1040</div>
-      <div class="data-cell grow">Client de passage</div>
-      <div class="data-cell">11/08/2026 13:05</div>
-      <div class="data-cell">1</div>
-      <div class="data-cell">35 €</div>
-      <div class="data-cell shrink"><span class="status active">Payee</span></div>
-    </div>
-    <div class="data-row">
-      <div class="data-cell shrink">#1039</div>
-      <div class="data-cell grow">Pierre Mukendi</div>
-      <div class="data-cell">10/08/2026 17:40</div>
-      <div class="data-cell">3</div>
-      <div class="data-cell">21 €</div>
-      <div class="data-cell shrink"><span class="status warning">En attente</span></div>
-    </div>
-    <div class="data-row">
-      <div class="data-cell shrink">#1038</div>
-      <div class="data-cell grow">Sarah Ilunga</div>
-      <div class="data-cell">10/08/2026 11:22</div>
-      <div class="data-cell">2</div>
-      <div class="data-cell">12 €</div>
-      <div class="data-cell shrink"><span class="status danger">Annulee</span></div>
-    </div>
+    {% empty %}
+    <p style="padding:16px;opacity:0.7;">Aucune vente pour le moment.</p>
+    {% endfor %}
   </div>
 
 {% endblock %}

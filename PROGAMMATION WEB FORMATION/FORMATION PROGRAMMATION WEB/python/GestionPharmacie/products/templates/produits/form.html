@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% comment %}
   produits/form.html - ajout / modification d'un produit.
-  Sert aussi bien pour la creation que pour l'edition : seul le
-  titre et les valeurs pre-remplies changeront lors de
-  l'integration Django.
+  Sert aussi bien pour la creation que pour l'edition : `produit` est
+  None en creation, ou l'instance a modifier (voir
+  products/views.py::produits_form).
 {% endcomment %}
 
-{% block title %}Ajouter un produit - GestionPharmacie{% endblock %}
+{% block title %}{% if produit %}Modifier {{ produit.nom }}{% else %}Ajouter un produit{% endif %} - GestionPharmacie{% endblock %}
 
 {% block content %}
 
@@ -14,77 +14,90 @@
     <a href="{% url 'produits_liste' %}" class="back-button" aria-label="Retour aux produits">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     </a>
-    <h1 class="app-content-headerText">Ajouter un produit</h1>
+    <h1 class="app-content-headerText">{% if produit %}Modifier {{ produit.nom }}{% else %}Ajouter un produit{% endif %}</h1>
     {% include "partials/theme_switch.html" %}
   </div>
 
-  <form class="form-card">
+  <form class="form-card" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="form-errors">
+        <ul>
+          {% for error in form.non_field_errors %}<li>{{ error }}</li>{% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
     <div class="form-grid">
       <div class="form-group full-width">
-        <label for="produit-nom">Nom du produit</label>
-        <input type="text" id="produit-nom" name="nom" placeholder="Ex. Doliprane 1000mg" />
+        <label for="{{ form.nom.id_for_label }}">Nom du produit</label>
+        {{ form.nom }}
+        {% if form.nom.errors %}<span class="field-error">{{ form.nom.errors|join:", " }}</span>{% endif %}
       </div>
 
       <div class="form-group">
-        <label for="produit-categorie">Categorie</label>
-        <select id="produit-categorie" name="categorie">
-          <option>Medicaments</option>
-          <option>Parapharmacie</option>
-          <option>Materiel medical</option>
-          <option>Hygiene</option>
-        </select>
+        <label for="{{ form.categorie.id_for_label }}">Categorie</label>
+        {{ form.categorie }}
+        {% if form.categorie.errors %}<span class="field-error">{{ form.categorie.errors|join:", " }}</span>{% endif %}
       </div>
       <div class="form-group">
-        <label for="produit-fournisseur">Fournisseur</label>
-        <select id="produit-fournisseur" name="fournisseur">
-          <option>PharmaDistrib SARL</option>
-          <option>MediGros</option>
-          <option>SantePlus Grossiste</option>
-        </select>
+        <label for="{{ form.fournisseur.id_for_label }}">Fournisseur</label>
+        {{ form.fournisseur }}
+        {% if form.fournisseur.errors %}<span class="field-error">{{ form.fournisseur.errors|join:", " }}</span>{% endif %}
       </div>
 
       <div class="form-group">
-        <label for="produit-prix">Prix de vente (€)</label>
-        <input type="number" id="produit-prix" name="prix" min="0" step="0.01" placeholder="0.00" />
+        <label for="{{ form.prix.id_for_label }}">Prix de vente (€)</label>
+        {{ form.prix }}
+        {% if form.prix.errors %}<span class="field-error">{{ form.prix.errors|join:", " }}</span>{% endif %}
       </div>
       <div class="form-group">
-        <label for="produit-prix-achat">Prix d'achat (€)</label>
-        <input type="number" id="produit-prix-achat" name="prix_achat" min="0" step="0.01" placeholder="0.00" />
-      </div>
-
-      <div class="form-group">
-        <label for="produit-stock">Quantite en stock</label>
-        <input type="number" id="produit-stock" name="stock" min="0" placeholder="0" />
-      </div>
-      <div class="form-group">
-        <label for="produit-seuil">Seuil d'alerte</label>
-        <input type="number" id="produit-seuil" name="seuil_alerte" min="0" placeholder="0" />
+        <label for="{{ form.prix_achat.id_for_label }}">Prix d'achat (€)</label>
+        {{ form.prix_achat }}
+        {% if form.prix_achat.errors %}<span class="field-error">{{ form.prix_achat.errors|join:", " }}</span>{% endif %}
       </div>
 
       <div class="form-group">
-        <label for="produit-lot">Numero de lot</label>
-        <input type="text" id="produit-lot" name="lot" placeholder="Ex. L2309" />
+        <label for="{{ form.stock.id_for_label }}">Quantite en stock</label>
+        {{ form.stock }}
+        {% if form.stock.errors %}<span class="field-error">{{ form.stock.errors|join:", " }}</span>{% endif %}
       </div>
       <div class="form-group">
-        <label for="produit-peremption">Date de peremption</label>
-        <input type="date" id="produit-peremption" name="date_peremption" />
+        <label for="{{ form.seuil_alerte.id_for_label }}">Seuil d'alerte</label>
+        {{ form.seuil_alerte }}
+        {% if form.seuil_alerte.errors %}<span class="field-error">{{ form.seuil_alerte.errors|join:", " }}</span>{% endif %}
       </div>
 
       <div class="form-group">
-        <label for="produit-statut">Statut</label>
-        <select id="produit-statut" name="statut">
-          <option>Actif</option>
-          <option>Desactive</option>
-        </select>
+        <label for="{{ form.lot.id_for_label }}">Numero de lot</label>
+        {{ form.lot }}
+        {% if form.lot.errors %}<span class="field-error">{{ form.lot.errors|join:", " }}</span>{% endif %}
       </div>
       <div class="form-group">
-        <label for="produit-image">Photo du produit</label>
-        <input type="file" id="produit-image" name="image" accept="image/*" />
+        <label for="{{ form.date_peremption.id_for_label }}">Date de peremption</label>
+        {{ form.date_peremption }}
+        {% if form.date_peremption.errors %}<span class="field-error">{{ form.date_peremption.errors|join:", " }}</span>{% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.actif.id_for_label }}">Actif</label>
+        {{ form.actif }}
+        {% if form.actif.errors %}<span class="field-error">{{ form.actif.errors|join:", " }}</span>{% endif %}
+      </div>
+      <div class="form-group">
+        <label for="{{ form.image.id_for_label }}">Photo du produit</label>
+        {% if produit.image %}
+          <img src="{{ produit.image.url }}" alt="{{ produit.nom }}" style="width:48px;height:48px;border-radius:6px;object-fit:cover;margin-bottom:6px;" />
+        {% endif %}
+        {{ form.image }}
+        {% if form.image.errors %}<span class="field-error">{{ form.image.errors|join:", " }}</span>{% endif %}
       </div>
 
       <div class="form-group full-width">
-        <label for="produit-description">Description</label>
-        <textarea id="produit-description" name="description" placeholder="Composition, posologie, precautions d'emploi..."></textarea>
+        <label for="{{ form.description.id_for_label }}">Description</label>
+        {{ form.description }}
+        {% if form.description.errors %}<span class="field-error">{{ form.description.errors|join:", " }}</span>{% endif %}
       </div>
     </div>
 

@@ -1,82 +1,56 @@
-{% extends "base.html" %}
-{% comment %}
-  stock/liste.html - vue d'ensemble du stock : quantites, lots et
-  dates de peremption. C'est ici que sont suivies les alertes
-  de rupture et de peremption proche.
-{% endcomment %}
+{% extends "base.html" %} {% comment %} stock/liste.html - vue d'ensemble du
+stock : quantites, lots et dates de peremption. C'est ici que sont suivies les
+alertes de rupture et de peremption proche. {% endcomment %} 
+{% block title %}Stock - GestionPharmacie{% endblock %} {% block content %}
 
-{% block title %}Stock - GestionPharmacie{% endblock %}
+<div class="app-content-header">
+  <h1 class="app-content-headerText">Stock</h1>
+  {% include "partials/theme_switch.html" %}
+  <button class="app-content-headerButton">Ajuster le stock</button>
+</div>
 
-{% block content %}
+<div class="app-content-actions">
+  <input
+    class="search-bar"
+    placeholder="Rechercher un produit..."
+    type="text"
+  />
+</div>
 
-  <div class="app-content-header">
-    <h1 class="app-content-headerText">Stock</h1>
-    {% include "partials/theme_switch.html" %}
-    <button class="app-content-headerButton">Ajuster le stock</button>
+<div class="data-table-wrapper">
+  <div class="data-table-header">
+    <div class="data-cell grow">Produit</div>
+    <div class="data-cell">Lot</div>
+    <div class="data-cell">Quantite</div>
+    <div class="data-cell">Seuil d'alerte</div>
+    <div class="data-cell">Peremption</div>
+    <div class="data-cell shrink">Statut</div>
   </div>
 
-  <div class="app-content-actions">
-    <input class="search-bar" placeholder="Rechercher un produit..." type="text" />
-  </div>
-
-  <div class="data-table-wrapper">
-    <div class="data-table-header">
-      <div class="data-cell grow">Produit</div>
-      <div class="data-cell">Lot</div>
-      <div class="data-cell">Quantite</div>
-      <div class="data-cell">Seuil d'alerte</div>
-      <div class="data-cell">Peremption</div>
-      <div class="data-cell shrink">Statut</div>
+  {% for produit in produits %}
+  <div class="data-row">
+    <div class="data-cell grow">{{ produit.nom }}</div>
+    <div class="data-cell">{{ produit.lot|default:"-" }}</div>
+    <div class="data-cell">{{ produit.stock }}</div>
+    <div class="data-cell">{{ produit.seuil_alerte }}</div>
+    <div class="data-cell">
+      {{ produit.date_peremption|date:"d/m/Y"|default:"-" }}
     </div>
-
-    <div class="data-row">
-      <div class="data-cell grow">Doliprane 1000mg</div>
-      <div class="data-cell">L2401</div>
-      <div class="data-cell">66</div>
-      <div class="data-cell">20</div>
-      <div class="data-cell">03/2027</div>
-      <div class="data-cell shrink"><span class="status active">En stock</span></div>
-    </div>
-    <div class="data-row">
-      <div class="data-cell grow">Amoxicilline 500mg</div>
-      <div class="data-cell">L2309</div>
-      <div class="data-cell">18</div>
-      <div class="data-cell">15</div>
-      <div class="data-cell">26/08/2026</div>
-      <div class="data-cell shrink"><span class="status danger">Peremption proche</span></div>
-    </div>
-    <div class="data-row">
-      <div class="data-cell grow">Gel hydroalcoolique</div>
-      <div class="data-cell">L2205</div>
-      <div class="data-cell">4</div>
-      <div class="data-cell">10</div>
-      <div class="data-cell">11/2027</div>
-      <div class="data-cell shrink"><span class="status warning">Stock faible</span></div>
-    </div>
-    <div class="data-row">
-      <div class="data-cell grow">Creme hydratante</div>
-      <div class="data-cell">L2118</div>
-      <div class="data-cell">40</div>
-      <div class="data-cell">10</div>
-      <div class="data-cell">06/2028</div>
-      <div class="data-cell shrink"><span class="status active">En stock</span></div>
-    </div>
-    <div class="data-row">
-      <div class="data-cell grow">Tensiometre digital</div>
-      <div class="data-cell">-</div>
-      <div class="data-cell">2</div>
-      <div class="data-cell">5</div>
-      <div class="data-cell">-</div>
-      <div class="data-cell shrink"><span class="status warning">Stock faible</span></div>
-    </div>
-    <div class="data-row">
-      <div class="data-cell grow">Paracetamol 500mg</div>
-      <div class="data-cell">L2350</div>
-      <div class="data-cell">0</div>
-      <div class="data-cell">15</div>
-      <div class="data-cell">09/2027</div>
-      <div class="data-cell shrink"><span class="status disabled">Rupture</span></div>
+    <div class="data-cell shrink">
+      {% if produit.en_rupture %}
+      <span class="status disabled">Rupture</span>
+      {% elif produit.peremption_proche %}
+      <span class="status danger">Peremption proche</span>
+      {% elif produit.stock_faible %}
+      <span class="status warning">Stock faible</span>
+      {% else %}
+      <span class="status active">En stock</span>
+      {% endif %}
     </div>
   </div>
+  {% empty %}
+  <p style="padding: 16px; opacity: 0.7">Aucun produit pour le moment.</p>
+  {% endfor %}
+</div>
 
 {% endblock %}

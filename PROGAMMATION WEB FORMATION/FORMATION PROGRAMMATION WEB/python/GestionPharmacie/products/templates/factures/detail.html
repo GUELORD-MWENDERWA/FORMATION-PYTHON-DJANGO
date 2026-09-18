@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% comment %}
   factures/detail.html - detail d'une facture, pensee pour etre
-  imprimee (voir la regle @media print dans style.css).
+  imprimee (voir la regle @media print dans style.css). Une facture
+  correspond directement a la Vente `vente` passee par
+  products/views.py::factures_detail.
 {% endcomment %}
 
-{% block title %}Facture F-2026-1042 - GestionPharmacie{% endblock %}
+{% block title %}Facture {{ vente.numero_facture }} - GestionPharmacie{% endblock %}
 
 {% block content %}
 
@@ -12,7 +14,7 @@
     <a href="{% url 'factures_liste' %}" class="back-button" aria-label="Retour aux factures">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     </a>
-    <h1 class="app-content-headerText">Facture F-2026-1042</h1>
+    <h1 class="app-content-headerText">Facture {{ vente.numero_facture }}</h1>
     {% include "partials/theme_switch.html" %}
   </div>
 
@@ -25,23 +27,27 @@
         <p>contact@gestionpharmacie.cd</p>
       </div>
       <div class="invoice-meta">
-        <p><strong>Facture N°</strong> F-2026-1042</p>
-        <p>Date : 11/08/2026</p>
-        <p>Vente liee : #1042</p>
+        <p><strong>Facture N°</strong> {{ vente.numero_facture }}</p>
+        <p>Date : {{ vente.date|date:"d/m/Y" }}</p>
+        <p>Vente liee : {{ vente.numero }}</p>
       </div>
     </div>
 
     <div class="invoice-parties">
       <div>
         <h3>Facture a</h3>
-        <p>Jean Kalombo</p>
-        <p>+243 970 000 001</p>
-        <p>jean.kalombo@example.com</p>
+        {% if vente.client %}
+          <p>{{ vente.client }}</p>
+          <p>{{ vente.client.telephone|default:"-" }}</p>
+          <p>{{ vente.client.email|default:"-" }}</p>
+        {% else %}
+          <p>Client de passage</p>
+        {% endif %}
       </div>
       <div>
         <h3>Paiement</h3>
-        <p>Mode : Especes</p>
-        <p>Statut : <span class="status active">Payee</span></p>
+        <p>Mode : {{ vente.get_mode_paiement_display }}</p>
+        <p>Statut : <span class="status {{ vente.statut_css }}">{{ vente.get_statut_display }}</span></p>
       </div>
     </div>
 
@@ -52,38 +58,34 @@
         <div class="data-cell">Prix unitaire</div>
         <div class="data-cell">Total</div>
       </div>
+      {% for ligne in vente.lignes.all %}
       <div class="data-row">
-        <div class="data-cell grow">Doliprane 1000mg</div>
-        <div class="data-cell shrink">2</div>
-        <div class="data-cell">3 €</div>
-        <div class="data-cell">6 €</div>
+        <div class="data-cell grow">{{ ligne.produit }}</div>
+        <div class="data-cell shrink">{{ ligne.quantite }}</div>
+        <div class="data-cell">{{ ligne.prix_unitaire }} €</div>
+        <div class="data-cell">{{ ligne.total }} €</div>
       </div>
-      <div class="data-row">
-        <div class="data-cell grow">Gel hydroalcoolique</div>
-        <div class="data-cell shrink">1</div>
-        <div class="data-cell">2 €</div>
-        <div class="data-cell">2 €</div>
-      </div>
+      {% endfor %}
     </div>
 
     <div class="invoice-totals">
       <div class="cart-total-row">
         <span>Sous-total</span>
-        <span>8 €</span>
+        <span>{{ vente.sous_total }} €</span>
       </div>
       <div class="cart-total-row">
         <span>Remise</span>
-        <span>0 €</span>
+        <span>{{ vente.remise }} €</span>
       </div>
       <div class="cart-total-row grand-total">
         <span>Total</span>
-        <span>8 €</span>
+        <span>{{ vente.total }} €</span>
       </div>
     </div>
 
     <div class="invoice-actions">
-      <button type="button" class="btn btn-secondary">Telecharger en PDF</button>
-      <button type="button" class="btn btn-primary">Imprimer</button>
+      <button type="button" class="btn btn-secondary" title="Pas encore implemente">Telecharger en PDF</button>
+      <button type="button" class="btn btn-primary" onclick="window.print()">Imprimer</button>
     </div>
 
   </div>
