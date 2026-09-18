@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from django.db import models
-from django.core.validators import MaxValueValidator
+from django.core.validators import MinValueValidator
 from django.utils import timezone
 
 # Create your models here.
@@ -57,9 +57,9 @@ class Produit(models.Model):
    fournisseur = models.ForeignKey(Fournisseur, on_delete=models.SET_NULL, related_name='produits',
                                    blank=True, null=True)
    prix = models.DecimalField("Prix de vente (€)", max_digits=10, decimal_places=2, 
-                              validators=[MaxValueValidator(0)])
+                              validators=[MinValueValidator(0)])
    prix_achat = models.DecimalField("Prix d'achat en (€)", max_digits=10, decimal_places=2,
-                                     validators=[MaxValueValidator(0)], null=True, blank=True)
+                                     validators=[MinValueValidator(0)], null=True, blank=True)
    stock =models.PositiveIntegerField("Quantinte en stock", default=0)
    seuil_alerte = models.PositiveIntegerField("Seuil alerte", default=0)
    lot = models.CharField("Numerro de lot", max_length=50, blank=True)
@@ -96,9 +96,9 @@ class Vente(models.Model):
 
    class Statut(models.TextChoices):
       PAYEE = 'payee', 'Payee'
-      EN_ENTENTE = 'en_entente', 'En antente'
+      EN_ATTENTE = 'en_attente', 'En attente'
       IMPAYEE = 'impayee', 'Impayee'
-      ANNULERR = 'annulee', 'Annulee'
+      ANNULEE = 'annulee', 'Annulee'
    client = models.ForeignKey(Client, on_delete=models.SET_NULL, related_name='ventes',
                               null=True, blank=True, help_text='vide = client de passage')
    date = models.DateTimeField(auto_now_add=True)
@@ -113,4 +113,52 @@ class Vente(models.Model):
       ordering = ['-date']
 
    def __str__(self):
-      pass 
+      return self.numero
+   
+   @property
+   def numero(self):
+      return f"#{self.pk}"
+
+   @property
+   def numero_facture(self):
+      annne = self.date.year if self.date else "-----"
+      return f"F-{annne}-{self.pk}"
+
+   STATUT_CSS = {
+      Statut.PAYEE: 'active',
+      Statut.EN_ATTENTE: 'warning',
+      Statut.IMPAYEE: 'warning',
+      Statut.ANNULEE: 'danger',
+   }
+
+   @property
+   def statut_css(self):
+      return self.STATUT_CSS.get(self.statut, 'neutral')
+
+   @property
+   def sous_total(self):
+      return sum(ligne.total for ligne in self.lignes.all())
+
+   @property
+   def total(self):
+      return self.sous_total - self.remise
+
+   @property
+   def nb_articles(self):
+      return sum(ligne.quantite for ligne in self.lignes.all())
+
+class LigneVente(models.Model):
+   vente = models.ForeignKey(Vente, on_delete=models.CASCADE, related_name='lignes')   
+   produit = models.ForeignKey(Produit,on_delete=models.PROTECT, related_name='Lignes_vente')
+   quantite =  models.PositiveIntegerField(default=1)
+   prix_unitaire= models.DecimalField("Prix de la Vente en (€)", max_digits=10, decimal_places=2)
+
+   def __str__(self):
+      return f"{self.quantite} x {self.produit}"
+
+   @property
+   def total(self):
+      return self.quantite * self.prix_unitaire
+
+
+   

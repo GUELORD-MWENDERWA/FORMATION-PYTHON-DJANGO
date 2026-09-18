@@ -31,7 +31,7 @@ class ClientForm(forms.ModelForm):
             }),
 
          'date_naissance': forms.DateInput(attrs={'type': 'date'}),
-         'notes': forms.Textarea(attrs={
+         'note': forms.Textarea(attrs={
             'placeholder': 'Information utile pour le  pharmacien',
             }),
       }
@@ -54,8 +54,8 @@ class VenteForm(forms.ModelForm):
       model= Vente   
       fields =['client', 'mode_paiement', 'remise']
 
-   def __int__(self, *args, **kwargs):
-      super().__init__(*args, **kwargs) 
+   def __init__(self, *args, **kwargs):
+      super().__init__(*args, **kwargs)
       self.fields['client'].empty_label  = "Client de passage"
 
 
@@ -67,11 +67,11 @@ class LigneVenteForm(forms.ModelForm):
    quantite = forms.IntegerField(min_value=1, required=False)
 
    class Meta:
-      model: LigneVente
+      model = LigneVente
       fields =  ['produit', 'quantite']
 
    def clean(self):
-      cleaned_data = super().clean
+      cleaned_data = super().clean()
       produit = cleaned_data.get('produit')
       quantite = cleaned_data.get('quantite')
       if produit and not quantite:
@@ -85,14 +85,24 @@ class LigneVenteForm(forms.ModelForm):
          )
       return cleaned_data
 
+   def save(self, commit=True):
+      instance = super().save(commit=False)
+      if instance.produit:
+         instance.prix_unitaire = instance.produit.prix
+      if commit:
+         instance.save()
+      return instance
+
 class BaseLigneVenteFormSet(BaseInlineFormSet):
    def clean(self):
       if any(self.errors):
          return
       lignes_remplies = [
-         form.cleaned_data for form in self.forms 
+         form.cleaned_data for form in self.forms
          if form.cleaned_data and form.cleaned_data.get('produit')
       ]
+      if not lignes_remplies:
+         raise forms.ValidationError("Ajoutez au moins un produit à la vente.")
 
 LigneVenteFormSet =  inlineformset_factory(
    Vente, LigneVente,

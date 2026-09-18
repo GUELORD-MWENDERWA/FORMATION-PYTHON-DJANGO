@@ -1,9 +1,4 @@
 {% extends "base_auth.html" %}
-{% comment %}
-  auth/login.html - page de connexion.
-  Pas encore reliee a l'authentification Django (aucune action
-  de formulaire, aucun {% csrf_token %} pour le moment).
-{% endcomment %}
 
 {% block title %}Connexion - GestionPharmacie{% endblock %}
 
@@ -21,22 +16,16 @@
     <h1 class="auth-title">GestionPharmacie</h1>
     <p class="auth-subtitle">Connectez-vous a votre espace de gestion</p>
 
-    <form>
+    <form method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}">
       <div class="form-group">
-        <label for="login-email">Adresse email</label>
-        <input type="email" id="login-email" name="email" placeholder="vous@pharmacie.cd" />
+        <label for="login-username">Nom d'utilisateur</label>
+        <input type="text" id="login-username" name="username" placeholder="gerant" autofocus />
       </div>
       <div class="form-group">
         <label for="login-password">Mot de passe</label>
         <input type="password" id="login-password" name="password" placeholder="••••••••" />
-      </div>
-
-      <div class="auth-options">
-        <label>
-          <input type="checkbox" name="remember" />
-          Se souvenir de moi
-        </label>
-        <a href="#">Mot de passe oublie ?</a>
       </div>
 
       <button type="submit" class="btn btn-primary">Se connecter</button>
