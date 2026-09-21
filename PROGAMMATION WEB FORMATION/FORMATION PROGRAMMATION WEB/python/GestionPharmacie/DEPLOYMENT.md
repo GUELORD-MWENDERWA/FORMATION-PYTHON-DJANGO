@@ -229,40 +229,41 @@ Render doit savoir chercher `requirements.txt`, `Procfile` et `manage.py` dans c
 2. Donner un nom (ex. `gestionpharmacie-db`), choisir une région et le plan **Free** (suffisant pour un projet pédagogique).
 3. Une fois créée, Render affiche une **Internal Database URL** et une **External Database URL**. L'interne est plus rapide et ne consomme pas de quota externe : c'est celle à utiliser si le service web est dans la même région Render, ce qui est le cas ici.
 
-### Étape 2 — Créer le service Web
+### Étape 2 — Remplir le formulaire « New Web Service »
 
-1. **New + → Web Service**, connecter le dépôt GitHub `FORMATION-PYTHON-DJANGO`, branche `main` (déjà à jour : `feature-dev` y a été fusionné).
-2. **Root Directory** : `PROGAMMATION WEB FORMATION/FORMATION PROGRAMMATION WEB/python/GestionPharmacie`
-3. **Runtime** : *Python 3*.
-4. **Build Command** : `pip install -r requirements.txt`
-5. **Start Command** : `python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn GestionPharmacie.wsgi:application --bind 0.0.0.0:$PORT --log-file -` (le même contenu que le `Procfile` — le préciser explicitement dans le dashboard est plus fiable que de compter sur la détection automatique du `Procfile` dans un sous-dossier de monorepo).
-6. **Plan** : *Free* pour tester (voir l'avertissement sur la mise en veille ci-dessous), *Starter* ou plus pour un usage réel.
+Render affiche un unique formulaire (Source Code → Name → Root Directory → Build/Start Command → Compute → Environment Variables) qui crée et déploie le service en une fois. Valeur exacte à mettre dans chaque champ :
 
-Render fournit une URL du type `gestionpharmacie.onrender.com` et redéploie automatiquement à chaque `git push` sur la branche connectée.
+| Champ du formulaire | Valeur à saisir | Pourquoi |
+|---|---|---|
+| **Source Code** | dépôt GitHub `GUELORD-MWENDERWA/FORMATION-PYTHON-DJANGO` | déjà le bon dépôt si Render l'a détecté automatiquement |
+| **Name** | `gestionpharmacie` (ou un nom de votre choix) | devient l'URL publique : `<name>.onrender.com`. Le nom pré-rempli `FORMATION-PYTHON-DJANGO` fonctionne aussi mais donne une URL moins lisible |
+| **Project** | `gestion-pharmacie` | déjà correctement présélectionné |
+| **Environment** | `Production` | valeur par défaut, à garder |
+| **Language** | `Python 3` | déjà correct |
+| **Branch** | `main` | déjà à jour : `feature-dev` y a été fusionné avec tout le travail de cette session |
+| **Region** | à votre choix (ex. `Virginia (US East)`), **mais retenez-la** | la base PostgreSQL de l'étape 1 doit être créée **dans la même région** pour pouvoir utiliser l'Internal Database URL (plus rapide, pas de quota externe) |
+| **Root Directory** | `PROGAMMATION WEB FORMATION/FORMATION PROGRAMMATION WEB/python/GestionPharmacie` | **champ le plus important** : le dépôt GitHub a deux dossiers imbriqués avant d'arriver au projet Django (`PROGAMMATION WEB FORMATION/` puis `FORMATION PROGRAMMATION WEB/`, orthographes différentes — copier-coller exactement cette valeur, sans quoi le build ne trouve pas `requirements.txt`) |
+| **Build Command** | `pip install -r requirements.txt` | remplace le texte pré-rempli |
+| **Start Command** | `python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn GestionPharmacie.wsgi:application --bind 0.0.0.0:$PORT --log-file -` | remplace le `gunicorn your_application.wsgi` pré-rempli ; c'est le même contenu que le [Procfile](Procfile), mais le préciser explicitement ici est plus fiable que de compter sur la détection automatique du `Procfile` dans un sous-dossier de monorepo |
+| **Compute** | `Free` pour tester (0.1 CPU / 512 Mo, déjà sélectionné) | voir les limites (pas de Shell, pas de disque persistant, mise en veille) détaillées plus bas ; passer sur un plan payant pour un usage réel |
 
-### Étape 3 — Configurer les variables d'environnement
+Dans la section **Environment Variables** du même formulaire, ajouter :
 
-Dans l'onglet **Environment** du service, ajouter :
-
-| Variable | Valeur |
+| Key | Value |
 |---|---|
-| `SECRET_KEY` | une nouvelle valeur générée (voir commande ci-dessous), **différente** de celle du `.env` local |
+| `SECRET_KEY` | cliquer sur **Generate** (Render génère une valeur aléatoire sûre) — sinon utiliser `python -c "import secrets; print(secrets.token_urlsafe(50))"` en local et coller le résultat |
 | `DEBUG` | `False` |
-| `DATABASE_URL` | coller l'**Internal Database URL** de la base créée à l'étape 1 (ou utiliser le bouton **Add from Database** de Render pour la lier automatiquement) |
+| `DATABASE_URL` | l'**Internal Database URL** de la base PostgreSQL créée à l'étape 1 (si l'étape 1 n'est pas encore faite, la créer d'abord dans la **même région**, puis revenir copier l'URL ici) |
 
-`ALLOWED_HOSTS` et `CSRF_TRUSTED_ORIGINS` n'ont **pas besoin d'être définies à la main** : Render expose automatiquement le domaine du service dans `RENDER_EXTERNAL_HOSTNAME`, que `settings.py` ajoute lui-même à ces deux listes (voir section 1.7). Vous pouvez les renseigner quand même si vous ajoutez un domaine personnalisé en plus du sous-domaine `onrender.com`.
+`ALLOWED_HOSTS` et `CSRF_TRUSTED_ORIGINS` **n'ont pas besoin d'être ajoutées ici** : Render expose automatiquement le domaine du service dans `RENDER_EXTERNAL_HOSTNAME`, que `settings.py` ajoute lui-même à ces deux listes (voir section 1.7). Ne les rajoutez que si vous branchez un domaine personnalisé en plus du sous-domaine `onrender.com`.
 
-Générer une clé secrète solide :
+Cliquer sur **Deploy Web Service** en bas du formulaire pour lancer la création et le premier déploiement.
 
-```bash
-python -c "import secrets; print(secrets.token_urlsafe(50))"
-```
+### Étape 3 — Suivre le déploiement
 
-### Étape 4 — Déployer
+Render fournit une URL du type `gestionpharmacie.onrender.com` et redéploie automatiquement à chaque `git push` sur la branche `main`. La **Start Command** s'exécute à chaque démarrage : migrations, `collectstatic`, puis lancement de `gunicorn`. Suivre l'onglet **Logs** pour vérifier qu'il n'y a pas d'erreur (une erreur fréquente au premier essai : `DisallowedHost`, voir la section Dépannage).
 
-Le premier déploiement démarre automatiquement après la création du service. La **Start Command** s'exécute à chaque démarrage : migrations, `collectstatic`, puis lancement de `gunicorn`. Suivre l'onglet **Logs** pour vérifier qu'il n'y a pas d'erreur (une erreur fréquente au premier essai : `DisallowedHost`, voir la section Dépannage).
-
-### Étape 5 — Créer un compte administrateur
+### Étape 4 — Créer un compte administrateur
 
 Le formulaire `createsuperuser` interactif a besoin d'un terminal, ce qui dépend du plan Render :
 
