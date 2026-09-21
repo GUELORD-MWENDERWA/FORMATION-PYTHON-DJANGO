@@ -31,6 +31,14 @@ DEBUG = env.bool('DEBUG', default=False)
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
 
+# Render fournit automatiquement le nom de domaine du service dans cette
+# variable ; on l'ajoute nous-memes pour ne pas avoir a le dupliquer a la
+# main dans ALLOWED_HOSTS/CSRF_TRUSTED_ORIGINS a chaque redeploiement.
+RENDER_EXTERNAL_HOSTNAME = env('RENDER_EXTERNAL_HOSTNAME', default=None)
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
+
 
 # Application definition
 
