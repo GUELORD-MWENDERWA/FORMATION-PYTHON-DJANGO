@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% comment %}
+  home.html - tableau de bord affiche a l'arrivee sur l'application.
+  Affichee par la vue home() (products/views.py).
+  Chiffres et listes ci-dessous en dur pour l'instant : viendront
+  de la base de donnees lors de l'integration Django.
+  Navigation vers les autres modules : sidebar (toutes les pages,
+  voir partials/sidebar.html) + liens "Voir tout" de chaque panneau.
+{% endcomment %}
+
+{% block title %}Tableau de bord - GestionPharmacie{% endblock %}
+
+{% block content %}
+
+  {# En-tete : titre, bouton clair/sombre, raccourci vers une nouvelle vente #}
+  <div class="app-content-header">
+    <h1 class="app-content-headerText">Tableau de bord</h1>
+    {% include "partials/theme_switch.html" %}
+    <a href="{% url 'ventes_form' %}" class="app-content-headerButton">Nouvelle vente</a>
+  </div>
+
+  <div class="data-table-wrapper">
+
+    {# Indicateurs cles #}
+    <div class="stat-cards">
+      <div class="stat-card">
+        <div class="stat-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <div>
+          <div class="stat-card-value">128</div>
+          <div class="stat-card-label">Produits references</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon success">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        </div>
+        <div>
+          <div class="stat-card-value">24</div>
+          <div class="stat-card-label">Ventes aujourd'hui</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div>
+          <div class="stat-card-value">842 €</div>
+          <div class="stat-card-label">Chiffre d'affaires du jour</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon warning">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div>
+          <div class="stat-card-value">7</div>
+          <div class="stat-card-label">Produits en alerte</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panels-row">
+
+      {# Ventes recentes #}
+      <div class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Ventes recentes</h2>
+          <a href="{% url 'ventes_liste' %}" class="panel-link">Voir tout</a>
+        </div>
+        <ul class="simple-list">
+          <li class="simple-list-item">
+            <div class="simple-list-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </div>
+            <div class="simple-list-content">
+              <p class="simple-list-title">Vente #1042 - Jean Kalombo</p>
+              <p class="simple-list-meta">Doliprane 1000mg x2, Gel hydroalcoolique - il y a 12 min</p>
+            </div>
+          </li>
+          <li class="simple-list-item">
+            <div class="simple-list-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </div>
+            <div class="simple-list-content">
+              <p class="simple-list-title">Vente #1041 - Marie Tshibangu</p>
+              <p class="simple-list-meta">Amoxicilline 500mg - il y a 34 min</p>
+            </div>
+          </li>
+          <li class="simple-list-item">
+            <div class="simple-list-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            </div>
+            <div class="simple-list-content">
+              <p class="simple-list-title">Vente #1040 - Client de passage</p>
+              <p class="simple-list-meta">Tensiometre digital - il y a 1 h</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      {# Alertes stock et peremption #}
+      <div class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Alertes</h2>
+          <a href="{% url 'notifications' %}" class="panel-link">Voir tout</a>
+        </div>
+        <ul class="simple-list">
+          <li class="simple-list-item">
+            <div class="simple-list-icon danger">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div class="simple-list-content">
+              <p class="simple-list-title">Amoxicilline 500mg</p>
+              <p class="simple-list-meta">Peremption dans 15 jours - lot L2309</p>
+            </div>
+          </li>
+          <li class="simple-list-item">
+            <div class="simple-list-icon warning">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </div>
+            <div class="simple-list-content">
+              <p class="simple-list-title">Gel hydroalcoolique</p>
+              <p class="simple-list-meta">Stock faible - 4 unites restantes</p>
+            </div>
+          </li>
+          <li class="simple-list-item">
+            <div class="simple-list-icon warning">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </div>
+            <div class="simple-list-content">
+              <p class="simple-list-title">Tensiometre digital</p>
+              <p class="simple-list-meta">Stock faible - 2 unites restantes</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,1 @@
+let i=0;const s=document.querySelectorAll("#slides .s");document.getElementById("next").onclick=()=>{s[i].style.display="none";i=(i+1)%s.length;s[i].style.display="block";}

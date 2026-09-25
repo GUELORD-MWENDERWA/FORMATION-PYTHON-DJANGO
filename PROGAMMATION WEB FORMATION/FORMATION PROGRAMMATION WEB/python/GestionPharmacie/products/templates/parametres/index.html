@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% comment %}
+  parametres/index.html - parametres de la pharmacie et du compte.
+{% endcomment %}
+
+{% block title %}Parametres - GestionPharmacie{% endblock %}
+
+{% block content %}
+
+  <div class="app-content-header">
+    <h1 class="app-content-headerText">Parametres</h1>
+    {% include "partials/theme_switch.html" %}
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <h2 class="panel-title">Informations de la pharmacie</h2>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="param-nom">Nom de la pharmacie</label>
+        <input type="text" id="param-nom" name="nom" value="Pharmacie GestionPharmacie" />
+      </div>
+      <div class="form-group">
+        <label for="param-telephone">Telephone</label>
+        <input type="tel" id="param-telephone" name="telephone" value="+243 970 000 000" />
+      </div>
+      <div class="form-group full-width">
+        <label for="param-adresse">Adresse</label>
+        <input type="text" id="param-adresse" name="adresse" value="12 Avenue de la Sante, Lubumbashi" />
+      </div>
+      <div class="form-group">
+        <label for="param-email">Email</label>
+        <input type="email" id="param-email" name="email" value="contact@gestionpharmacie.cd" />
+      </div>
+      <div class="form-group">
+        <label for="param-devise">Devise</label>
+        <select id="param-devise" name="devise">
+          <option>Euro (€)</option>
+          <option>Franc congolais (FC)</option>
+          <option>Dollar americain ($)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <h2 class="panel-title">Alertes de stock</h2>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="param-seuil-defaut">Seuil d'alerte par defaut</label>
+        <input type="number" id="param-seuil-defaut" name="seuil_defaut" value="10" min="0" />
+      </div>
+      <div class="form-group">
+        <label for="param-delai-peremption">Alerte peremption (jours avant)</label>
+        <input type="number" id="param-delai-peremption" name="delai_peremption" value="30" min="0" />
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <h2 class="panel-title">Securite</h2>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="param-mdp-actuel">Mot de passe actuel</label>
+        <input type="password" id="param-mdp-actuel" name="mot_de_passe_actuel" placeholder="••••••••" />
+      </div>
+      <div class="form-group">
+        <label for="param-mdp-nouveau">Nouveau mot de passe</label>
+        <input type="password" id="param-mdp-nouveau" name="nouveau_mot_de_passe" placeholder="••••••••" />
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="button" class="btn btn-secondary">Annuler</button>
+    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,93 @@
+{% comment %}
+  partials/products_toolbar.html - barre de recherche + filtres.
+  Utilise uniquement sur la page produits.html.
+{% endcomment %}
+<div class="app-content-actions">
+  <input class="search-bar" placeholder="Rechercher..." type="text" />
+
+  <div class="app-content-actions-wrapper">
+
+    {# Bouton "Filtrer" + panneau de filtres (categorie / statut) #}
+    <div class="filter-button-wrapper">
+      <button class="action-button filter jsFilter">
+        <span>Filtrer</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-filter"
+        >
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+        </svg>
+      </button>
+      <div class="filter-menu">
+        <label>Categorie</label>
+        <select>
+          <option>Toutes les categories</option>
+          <option>Medicaments</option>
+          <option>Parapharmacie</option>
+          <option>Materiel medical</option>
+          <option>Hygiene</option>
+        </select>
+        <label>Statut</label>
+        <select>
+          <option>Tous les statuts</option>
+          <option>Actif</option>
+          <option>Desactive</option>
+        </select>
+        <div class="filter-menu-buttons">
+          <button class="filter-button reset">Reinitialiser</button>
+          <button class="filter-button apply">Appliquer</button>
+        </div>
+      </div>
+    </div>
+
+    {# Bascule entre vue liste et vue grille #}
+    <button class="action-button list active" title="Vue liste">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-list"
+      >
+        <line x1="8" y1="6" x2="21" y2="6" />
+        <line x1="8" y1="12" x2="21" y2="12" />
+        <line x1="8" y1="18" x2="21" y2="18" />
+        <line x1="3" y1="6" x2="3.01" y2="6" />
+        <line x1="3" y1="12" x2="3.01" y2="12" />
+        <line x1="3" y1="18" x2="3.01" y2="18" />
+      </svg>
+    </button>
+    <button class="action-button grid" title="Vue grille">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-grid"
+      >
+        <rect x="3" y="3" width="7" height="7" />
+        <rect x="14" y="3" width="7" height="7" />
+        <rect x="14" y="14" width="7" height="7" />
+        <rect x="3" y="14" width="7" height="7" />
+      </svg>
+    </button>
+  </div>
+</div>

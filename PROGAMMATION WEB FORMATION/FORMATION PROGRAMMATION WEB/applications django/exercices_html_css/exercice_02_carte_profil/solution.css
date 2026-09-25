@@ -1,0 +1,23 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f8fafc;
+  color: #111;
+  margin: 0;
+  padding: 20px;
+}
+.wrap {
+  max-width: 900px;
+  margin: 40px auto;
+  background: white;
+  padding: 24px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+h1 {
+  color: #0f172a;
+}
+section.example {
+  padding: 12px;
+  border-radius: 6px;
+  background: #f1f5f9;
+}

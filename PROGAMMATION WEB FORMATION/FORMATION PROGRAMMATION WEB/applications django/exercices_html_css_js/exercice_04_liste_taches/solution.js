@@ -1,0 +1,1 @@
+const inp=document.getElementById("new"),add=document.getElementById("add"),list=document.getElementById("list");add.onclick=()=>{if(!inp.value) return;const li=document.createElement("li");li.textContent=inp.value;li.onclick=()=>li.classList.toggle("done");list.appendChild(li);inp.value="";}
