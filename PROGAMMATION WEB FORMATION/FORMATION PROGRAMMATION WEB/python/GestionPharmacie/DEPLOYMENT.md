@@ -261,18 +261,29 @@ Cliquer sur **Deploy Web Service** en bas du formulaire pour lancer la création
 
 ### Étape 3 — Suivre le déploiement
 
-Render fournit une URL du type `gestionpharmacie.onrender.com` et redéploie automatiquement à chaque `git push` sur la branche `main`. La **Start Command** s'exécute à chaque démarrage : migrations, `collectstatic`, puis lancement de `gunicorn`. Suivre l'onglet **Logs** pour vérifier qu'il n'y a pas d'erreur (une erreur fréquente au premier essai : `DisallowedHost`, voir la section Dépannage).
+Render fournit une URL du type `gestionpharmacie.onrender.com` et redéploie automatiquement à chaque `git push` sur la branche `main`. La **Start Command** s'exécute à chaque démarrage : migrations, `collectstatic`, création du compte admin par défaut, puis lancement de `gunicorn`. Suivre l'onglet **Logs** pour vérifier qu'il n'y a pas d'erreur (une erreur fréquente au premier essai : `DisallowedHost`, voir la section Dépannage).
 
-### Étape 4 — Créer un compte administrateur
+### Étape 4 — Compte administrateur créé automatiquement
 
-Le formulaire `createsuperuser` interactif a besoin d'un terminal, ce qui dépend du plan Render :
+La **Start Command** (`Procfile`) exécute `python manage.py create_default_admin` après les migrations, à chaque démarrage. Cette commande ([products/management/commands/create_default_admin.py](products/management/commands/create_default_admin.py)) :
 
-- **Plan payant (Starter et plus)** : onglet **Shell** du service dans le dashboard Render, puis `python manage.py createsuperuser`.
-- **Plan Free (pas d'accès Shell)** : lancer la commande **depuis votre machine locale**, en pointant temporairement sur la base de production via son **External Database URL** :
-  ```bash
-  DATABASE_URL="<external-database-url-de-render>" python manage.py createsuperuser
-  ```
-  Cela crée directement le compte dans la base Postgres de production sans avoir besoin d'un shell sur le serveur.
+- ne fait rien si un superutilisateur existe déjà (évite d'écraser un compte existant) ;
+- sinon, crée un compte avec les identifiants par défaut **`admin` / `admin123`**.
+
+Se connecter sur `/admin/` avec `admin` / `admin123` après le premier déploiement.
+
+⚠️ **Ce sont des identifiants de démonstration.** Pensez à changer le mot de passe depuis l'admin Django une fois connecté, ou à définir des variables d'environnement sur le service Render pour personnaliser la création :
+
+| Variable | Rôle |
+| --- | --- |
+| `DJANGO_SUPERUSER_USERNAME` | nom d'utilisateur (défaut `admin`) |
+| `DJANGO_SUPERUSER_EMAIL` | email (défaut `admin@example.com`) |
+| `DJANGO_SUPERUSER_PASSWORD` | mot de passe (défaut `admin123`) |
+
+Alternative manuelle (toujours disponible) : onglet **Shell** du service (plans payants) puis `python manage.py createsuperuser`, ou depuis votre machine locale en pointant sur la base de production :
+```bash
+DATABASE_URL="<external-database-url-de-render>" python manage.py createsuperuser
+```
 
 ### Point d'attention : les images produits ne sont pas persistantes par défaut
 
